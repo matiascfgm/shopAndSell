@@ -2,19 +2,29 @@
     <h2 class="mt-5">NEW PRODUCT</h2>
     <br>
     <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
-        <input class="input-group mb-3" type="text" formControlName="title" placeholder="Name what you are selling...">
-        <textarea class="input-group mb-3" type="textarea" formControlName="description"
-            placeholder="Add a little description..."></textarea>
-        <input class="input-group mb-3" type="number" formControlName="price" placeholder="€">
-        <input class="input-group mb-3" type="text" formControlName="brand" placeholder="Brand...">
+        <mat-form-field>
+            <input matInput placeholder="Input" type="text" formControlName="title"
+                placeholder="Name what you are selling...">
+        </mat-form-field><br>
+        <mat-form-field>
+            <input matInput type="textarea" formControlName="description" placeholder="Add a little description...">
+        </mat-form-field><br>
+        <mat-form-field>
+            <input matInput type="number" formControlName="price" placeholder="€">
+        </mat-form-field><br>
+        <mat-form-field>
+            <input matInput type="text" formControlName="brand" placeholder="Brand...">
+        </mat-form-field><br>
         <!--used or not and description if true-->
-        <div class="input-group" formGroupName="condition">
-            <div class="input-group-text">
+        <div formGroupName="condition">
+            <div>
                 <p>the product is used</p>
-                <input type="radio" formControlName="used" [(ngModel)]="used" [value]="true">
+                    <mat-radio-button (ngModel)="used" [value]="false">New</mat-radio-button>
+                    <mat-radio-button (ngModel)="used" [value]="true">Used</mat-radio-button>
+                <br>
             </div>
             <textarea *ngIf="used == true" type="textarea" class="form-control" formControlName="conditionDescription"
-                placeholder="Describe it's condition..."></textarea>
+                placeholder="Describe it's condition..."></textarea><br>
         </div>
         <button type="submit" class="btn btn-outline-success btn-lg">Sell</button>
         <br>

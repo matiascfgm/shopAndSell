@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ProductsListService } from '../products-list.service';
 import { Product } from '../product.interface';
-import {Router} from "@angular/router"
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-product',
@@ -29,10 +29,8 @@ export class NewProductComponent implements OnInit {
 
   createProduct (){
     console.log('createProduct()');
+    console.log(this.newProductForm.value.condition.used)
     const product:Product = this.newProductForm.value;
-    if(product.condition.used == undefined){
-      product.condition.used = false;
-    }
     this.productService.avaliableProducts.push(product);   
     this.router.navigate(['/']);
   }
