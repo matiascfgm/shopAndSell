@@ -1,0 +1,5 @@
+<div  class="mt-5" *ngFor="let product of productService.avaliableProducts">
+    {{ product.title }}<br>
+    {{ product.condition.used }}
+    {{ product.condition.conditionDescription }}
+</div>

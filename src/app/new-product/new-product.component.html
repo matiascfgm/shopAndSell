@@ -1,0 +1,23 @@
+<div class="container">
+    <h2 class="mt-5">NEW PRODUCT</h2>
+    <br>
+    <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
+        <input class="input-group mb-3" type="text" formControlName="title" placeholder="Name what you are selling...">
+        <textarea class="input-group mb-3" type="textarea" formControlName="description"
+            placeholder="Add a little description..."></textarea>
+        <input class="input-group mb-3" type="number" formControlName="price" placeholder="€">
+        <input class="input-group mb-3" type="text" formControlName="brand" placeholder="Brand...">
+        <!--used or not and description if true-->
+        <div class="input-group" formGroupName="condition">
+            <div class="input-group-text">
+                <p>the product is used</p>
+                <input type="radio" formControlName="used" [(ngModel)]="used" [value]="true">
+            </div>
+            <textarea *ngIf="used == true" type="textarea" class="form-control" formControlName="conditionDescription"
+                placeholder="Describe it's condition..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-outline-success btn-lg">Sell</button>
+        <br>
+    </form>
+    <button routerLink="/" class="btn btn-outline-danger btn-lg">Cancel</button>
+</div>
