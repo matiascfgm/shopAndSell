@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef, Directive, Input } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, Validators, NgControl } from '@angular/forms';
 import { ProductsListService } from '../products-list.service';
 import { Product } from '../product.interface';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-new-product',
@@ -12,31 +12,30 @@ import {Router} from "@angular/router";
 export class NewProductComponent implements OnInit {
   // public newId: number = this.productService.avaliableProducts.length + 1;
   public newProductForm: FormGroup;
-  constructor(public productService: ProductsListService, private router: Router, private cdRef:ChangeDetectorRef) {
+  constructor(public productService: ProductsListService, private router: Router, private cdRef: ChangeDetectorRef) {
     this.newProductForm = new FormGroup({
-      title: new FormControl(''),
-      description: new FormControl(''),
-      price: new FormControl(''),
-      brand: new FormControl(''),
+      title: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      price: new FormControl('', Validators.required),
+      brand: new FormControl('', Validators.required),
       condition: new FormGroup({
-        used: new FormControl(''),
+        used: new FormControl(false, Validators.required),
         conditionDescription: new FormControl(''),
       }),
-    })
-   }
-  ngOnInit() {
+    });
   }
+  ngOnInit() { }
 
-  createProduct (){
+  createProduct() {
     console.log('createProduct()');
-    const product:Product = this.newProductForm.value;
-    this.productService.avaliableProducts.push(product);   
+    const product: Product = this.newProductForm.value;
+    this.productService.avaliableProducts.push(product);
     this.router.navigate(['/']);
   }
 
   // new product condition by user ( used or new )
-  usedProductFunction(condition) {
-    this.newProductForm.value.condition.used = (condition.value =="true"); // convert to boolean
-    console.log(this.newProductForm.value.condition.used)
- }
+  usedProductToggle(condition) {
+    this.newProductForm.value.condition.used = (condition.value == "true"); // convert to boolean
+    console.log(this.newProductForm.value.condition.used);
+  }
 }

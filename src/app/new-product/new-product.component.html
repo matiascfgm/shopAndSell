@@ -3,27 +3,28 @@
     <br>
     <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
         <mat-form-field>
-            <input matInput type="text" formControlName="title" placeholder="Name what you are selling...">
+            <input matInput required minlength="4" required type="text" formControlName="title" placeholder="Name what you are selling..." name="title">
+        </mat-form-field>
+        <div *ngIf="title.invalid && (title.dirty || title.touched)"class="alert alert-danger"></div>
+        <br>
+        <mat-form-field>
+            <input matInput required type="textarea" formControlName="description" placeholder="Add a little description...">
         </mat-form-field><br>
         <mat-form-field>
-            <input matInput type="textarea" formControlName="description" placeholder="Add a little description...">
+            <input matInput required type="number" formControlName="price" placeholder="€">
         </mat-form-field><br>
         <mat-form-field>
-            <input matInput type="number" formControlName="price" placeholder="€">
-        </mat-form-field><br>
-        <mat-form-field>
-            <input matInput type="text" formControlName="brand" placeholder="Brand...">
+            <input matInput required type="text" formControlName="brand" placeholder="Brand...">
         </mat-form-field><br>
         <!--select if new product is used or not-->
-        <mat-radio-group (change)="usedProductFunction($event)" name="used">
-            is it new?<br>
-            <mat-radio-button value="true">true</mat-radio-button>
-            <mat-radio-button value="false">false</mat-radio-button>
+        <mat-radio-group required minlength="4" (change)="usedProductToggle($event)" name="used">
+            is it used or new?<br>
+            <mat-radio-button value="false" checked="checked">new</mat-radio-button>
+            <mat-radio-button value="true">used</mat-radio-button>
         </mat-radio-group>
-        <!--only shows if product used condition is true-->
-        <div formGroupName="condition"> <!--on condition change error!-->
-            <textarea *ngIf="newProductForm.value.condition.used" type="textarea" class="form-control"
-                formControlName="conditionDescription" placeholder="Describe it's condition..."></textarea><br>
+        <div formGroupName="condition">
+            <textarea type="textarea" formControlName="conditionDescription"
+                placeholder="Describe it's condition if used..."></textarea><br>
         </div>
         <button type="submit">Sell</button>
         <br>
