@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ProductsListService } from '../products-list.service';
 import { Product } from '../product.interface';
@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 export class NewProductComponent implements OnInit {
   // public newId: number = this.productService.avaliableProducts.length + 1;
   public newProductForm: FormGroup;
-  constructor(public productService: ProductsListService, private router: Router) {
+  constructor(public productService: ProductsListService, private router: Router, private cdRef:ChangeDetectorRef) {
     this.newProductForm = new FormGroup({
       title: new FormControl(''),
       description: new FormControl(''),
@@ -29,9 +29,14 @@ export class NewProductComponent implements OnInit {
 
   createProduct (){
     console.log('createProduct()');
-    console.log(this.newProductForm.value.condition.used)
     const product:Product = this.newProductForm.value;
     this.productService.avaliableProducts.push(product);   
     this.router.navigate(['/']);
   }
+
+  // new product condition by user ( used or new )
+  usedProductFunction(condition) {
+    this.newProductForm.value.condition.used = (condition.value =="true"); // convert to boolean
+    console.log(this.newProductForm.value.condition.used)
+ }
 }

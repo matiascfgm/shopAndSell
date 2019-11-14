@@ -3,8 +3,7 @@
     <br>
     <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
         <mat-form-field>
-            <input matInput placeholder="Input" type="text" formControlName="title"
-                placeholder="Name what you are selling...">
+            <input matInput type="text" formControlName="title" placeholder="Name what you are selling...">
         </mat-form-field><br>
         <mat-form-field>
             <input matInput type="textarea" formControlName="description" placeholder="Add a little description...">
@@ -15,19 +14,19 @@
         <mat-form-field>
             <input matInput type="text" formControlName="brand" placeholder="Brand...">
         </mat-form-field><br>
-        <!--used or not and description if true-->
-        <div formGroupName="condition">
-            <div>
-                <p>the product is used</p>
-                    <mat-radio-button (ngModel)="used" [value]="false">New</mat-radio-button>
-                    <mat-radio-button (ngModel)="used" [value]="true">Used</mat-radio-button>
-                <br>
-            </div>
-            <textarea *ngIf="used == true" type="textarea" class="form-control" formControlName="conditionDescription"
-                placeholder="Describe it's condition..."></textarea><br>
+        <!--select if new product is used or not-->
+        <mat-radio-group (change)="usedProductFunction($event)" name="used">
+            is it new?<br>
+            <mat-radio-button value="true">true</mat-radio-button>
+            <mat-radio-button value="false">false</mat-radio-button>
+        </mat-radio-group>
+        <!--only shows if product used condition is true-->
+        <div formGroupName="condition"> <!--on condition change error!-->
+            <textarea *ngIf="newProductForm.value.condition.used" type="textarea" class="form-control"
+                formControlName="conditionDescription" placeholder="Describe it's condition..."></textarea><br>
         </div>
-        <button type="submit" class="btn btn-outline-success btn-lg">Sell</button>
+        <button type="submit">Sell</button>
         <br>
     </form>
-    <button routerLink="/" class="btn btn-outline-danger btn-lg">Cancel</button>
+    <button routerLink="/">Cancel</button>
 </div>
