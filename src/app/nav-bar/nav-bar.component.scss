@@ -1,3 +1,6 @@
+* {
+  overflow: hidden;
+}
 ul {
   list-style: none;
 }
@@ -6,6 +9,7 @@ a {
   text-decoration: none;
   opacity: 0.6;
   transition: 0.4s;
+  margin-right: 30px;
   &:hover {
     opacity: 0.9;
   }

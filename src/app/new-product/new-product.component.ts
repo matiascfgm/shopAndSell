@@ -7,15 +7,21 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'app-new-product',
   templateUrl: './new-product.component.html',
-  styleUrls: ['./new-product.component.scss']
+  styleUrls: ['./new-product.component.scss'],
 })
 export class NewProductComponent implements OnInit {
   // public newId: number = this.productService.avaliableProducts.length + 1;
   public newProductForm: FormGroup;
   constructor(public productService: ProductsListService, private router: Router, private cdRef: ChangeDetectorRef) {
     this.newProductForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+      ]),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+      ]),
       price: new FormControl('', Validators.required),
       brand: new FormControl('', Validators.required),
       condition: new FormGroup({

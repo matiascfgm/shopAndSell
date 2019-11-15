@@ -18,6 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { HomeComponent } from './home/home.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { AccountComponent } from './account/account.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { HomeComponent } from './home/home.component';
     NewProductComponent,
     BuyProductComponent,
     NavBarComponent,
-    HomeComponent
+    HomeComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,7 @@ import { HomeComponent } from './home/home.component';
     MatButtonModule,
     MatRadioModule,
     TextFieldModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

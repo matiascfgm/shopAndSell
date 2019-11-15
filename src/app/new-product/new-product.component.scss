@@ -1,1 +1,20 @@
 @import "../style/variables.scss";
+h2 {
+    font-size: 4em;
+    color: $darkGray;
+    text-align: center;
+}
+mat-form-field{
+    margin-bottom: -0.8em;
+}
+form {
+    margin: 5% 0 0 5%;
+}
+.inputTitle {
+    font-size: 4em;
+    width: 70%;
+}
+.textarea {
+    font-size: 2em;
+    width: 70%;
+}

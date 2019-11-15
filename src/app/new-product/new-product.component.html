@@ -1,38 +1,43 @@
-<div class="container">
-    <h1 class="mt-5">NEW PRODUCT</h1>
-    <br>
-    <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
-        <mat-form-field>
-            <input matInput required minlength="3" class="form-control"
-                formControlName="title" placeholder="Name what you are selling" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Add a little description</mat-label>
-            <textarea matInput minlength="3" formControlName="description" cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
-        </mat-form-field><br>
-        <mat-form-field>
-            <input matInput type="number" formControlName="price" placeholder="€">
-        </mat-form-field><br>
-        <mat-form-field>
-            <input matInput formControlName="brand" placeholder="Brand">
-        </mat-form-field><br>
-        <!--select if new product is used or not-->
-        <mat-radio-group required minlength="4" (change)="usedProductToggle($event)" name="used">
-            is it used or new?<br>
-            <mat-radio-button value="false" checked="checked">new</mat-radio-button>
-            <mat-radio-button value="true">used</mat-radio-button>
-        </mat-radio-group>
-        <div formGroupName="condition">
-            <mat-form-field>
-                <mat-label>Describe it's condition</mat-label>
-                <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
-                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea><br>
+<!-- content labels first ->add product second ->see your products -->
+<mat-tab-group>
+    <mat-tab label="Sell new product">
+        <!--add new product form-->
+        <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
+            <mat-form-field class="inputTitle">
+                <input matInput autofocus formControlName="title" placeholder="Start by naming what you are selling">
             </mat-form-field>
-        </div>
-        <button [disabled]="!newProductForm.valid" type="submit">Sell</button>
+            <br>
+            <mat-form-field class="textarea">
+                <mat-label>Add a little description</mat-label>
+                <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+            </mat-form-field><br>
+            <mat-form-field>
+                <input matInput type="number" formControlName="price" placeholder="€">
+            </mat-form-field><br>
+            <mat-form-field>
+                <input matInput formControlName="brand" placeholder="Brand">
+            </mat-form-field><br>
+            <!--select if new product is used or not-->
+            <mat-radio-group (change)="usedProductToggle($event)" name="used">
+                is it used or new?<br>
+                <mat-radio-button value="false" checked="checked">new</mat-radio-button>
+                <mat-radio-button value="true">used</mat-radio-button>
+            </mat-radio-group>
+            <div formGroupName="condition">
+                <br>
+                <mat-form-field>
+                    <mat-label>Describe it's condition</mat-label>
+                    <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea><br>
+                </mat-form-field>
+            </div>
+            <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button color="primary">Sell</button>
+            <br>
+        </form>
+        <button routerLink="/">Cancel</button>
         <br>
-    </form>
-    <button routerLink="/">Cancel</button>
-</div>
+    </mat-tab>
+    <!---->
+    <mat-tab label="Your products"> Your products will show here if you have any </mat-tab>
+</mat-tab-group>
