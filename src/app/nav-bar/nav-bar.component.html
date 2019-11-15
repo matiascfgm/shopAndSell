@@ -1,5 +1,50 @@
-<mat-toolbar>
-    <span>My Application</span>
-    <span>My Application</span>
-    <span>My Application</span>
-</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav  #sidenav role="navigation">
+     <mat-nav-list>
+      <a mat-list-item>
+        <span class="label">Shop</span>
+      </a>
+      <a mat-list-item>
+          <span class="label">Sell</span>
+      </a>
+      <a mat-list-item>
+        <span class="label">Dashboard</span>
+      </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+       <div fxHide.gt-xs>
+         <button mat-icon-button>
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+       <div>
+         <a routerLink="" routerLinkActive="active">
+            Shop and sell
+         </a>
+       </div>
+       <div fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
+          <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+              <li>
+                  <a routerLink="/buy-product" routerLinkActive="active">
+                    <span  class="label">Shop</span>
+                   </a>
+              </li>
+              <li>
+                <a routerLink="/new-product" routerLinkActive="active">
+                    <span class="label">Sell</span>
+                </a>
+              </li>
+              <li>
+                  <a routerLinkActive="active">
+                      <span class="label">Dashboard</span>
+                  </a>
+                </li>
+          </ul>
+       </div>
+      </mat-toolbar>
+      <main>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
