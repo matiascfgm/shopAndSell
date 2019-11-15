@@ -19,8 +19,8 @@ export class NewProductComponent implements OnInit {
       price: new FormControl('', Validators.required),
       brand: new FormControl('', Validators.required),
       condition: new FormGroup({
-        used: new FormControl(false, Validators.required),
-        conditionDescription: new FormControl(''),
+        used: new FormControl({ value: false }),
+        conditionDescription: new FormControl({ value: '', disabled: true }),
       }),
     });
   }
@@ -35,7 +35,13 @@ export class NewProductComponent implements OnInit {
 
   // new product condition by user ( used or new )
   usedProductToggle(condition) {
-    this.newProductForm.value.condition.used = (condition.value == "true"); // convert to boolean
+    this.newProductForm.value.condition.used = JSON.parse(condition.value); // convert to boolean   
     console.log(this.newProductForm.value.condition.used);
+    if (this.newProductForm.value.condition.used) {
+      this.newProductForm.get('condition').get('conditionDescription').enable();
+    }
+    if (!this.newProductForm.value.condition.used) {
+      this.newProductForm.get('condition').get('conditionDescription').disable();
+    }
   }
 }
