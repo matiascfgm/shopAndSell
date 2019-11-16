@@ -22,11 +22,11 @@ export class NewProductComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
       ]),
-      price: new FormControl('', Validators.required),
       brand: new FormControl('', Validators.required),
+      price: new FormControl('', Validators.required),
       condition: new FormGroup({
         used: new FormControl({ value: false }),
-        conditionDescription: new FormControl({ value: '', disabled: true }),
+        conditionDescription: new FormControl({ value: '', disabled: true }, Validators.required),
       }),
     });
   }
@@ -43,11 +43,6 @@ export class NewProductComponent implements OnInit {
   usedProductToggle(condition) {
     this.newProductForm.value.condition.used = JSON.parse(condition.value); // convert to boolean   
     console.log(this.newProductForm.value.condition.used);
-    if (this.newProductForm.value.condition.used) {
-      this.newProductForm.get('condition').get('conditionDescription').enable();
-    }
-    if (!this.newProductForm.value.condition.used) {
-      this.newProductForm.get('condition').get('conditionDescription').disable();
-    }
+    this.newProductForm.value.condition.used ? this.newProductForm.get('condition').get('conditionDescription').enable() : this.newProductForm.get('condition').get('conditionDescription').disable();
   }
 }

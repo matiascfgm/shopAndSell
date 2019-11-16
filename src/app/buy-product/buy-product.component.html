@@ -1,4 +1,8 @@
-<h1>Buy product</h1>
+<mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <span>Shop</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
 <div  class="mt-5" *ngFor="let product of productService.avaliableProducts">
     {{ product.title }}<br>
     {{ product.condition.used }}

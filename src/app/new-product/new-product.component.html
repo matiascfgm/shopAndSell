@@ -1,43 +1,58 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Sell product</span>
+    </mat-toolbar-row>
+</mat-toolbar>
 <!-- content labels first ->add product second ->see your products -->
 <mat-tab-group>
     <mat-tab label="Sell new product">
+        <br><br>
         <!--add new product form-->
-        <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
-            <mat-form-field class="inputTitle">
-                <input matInput autofocus formControlName="title" placeholder="Start by naming what you are selling">
-            </mat-form-field>
-            <br>
-            <mat-form-field class="textarea">
-                <mat-label>Add a little description</mat-label>
-                <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                    cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
-            </mat-form-field><br>
-            <mat-form-field>
-                <input matInput type="number" formControlName="price" placeholder="€">
-            </mat-form-field><br>
-            <mat-form-field>
-                <input matInput formControlName="brand" placeholder="Brand">
-            </mat-form-field><br>
-            <!--select if new product is used or not-->
-            <mat-radio-group (change)="usedProductToggle($event)" name="used">
-                is it used or new?<br>
-                <mat-radio-button value="false" checked="checked">new</mat-radio-button>
-                <mat-radio-button value="true">used</mat-radio-button>
-            </mat-radio-group>
-            <div formGroupName="condition">
+        <div class="formContainer">
+            <mat-card class="formContainerTitle">New product</mat-card>
+            <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
                 <br>
-                <mat-form-field>
-                    <mat-label>Describe it's condition</mat-label>
-                    <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
-                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea><br>
+                <mat-form-field class="inputTitle center" color="accent">
+                    <input matInput autofocus formControlName="title"
+                        placeholder="Start by naming what you are selling">
                 </mat-form-field>
-            </div>
-            <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button color="primary">Sell</button>
-            <br>
-        </form>
-        <button routerLink="/">Cancel</button>
+                <br>
+                <mat-form-field class="center" color="accent">
+                    <mat-label>Add a little description</mat-label>
+                    <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea>
+                </mat-form-field><br>
+                <mat-form-field color="accent" class="center">
+                    <input matInput formControlName="brand" placeholder="Brand">
+                </mat-form-field><br>
+                <mat-form-field color="accent" class="center" style="font-size: 2em; width: 20%;">
+                    <input matInput type="number" formControlName="price">
+                    <span matSuffix>€&nbsp;</span>
+                </mat-form-field>
+                <br>
+                <!--select if new product is used or not-->
+                <mat-radio-group class="center" (change)="usedProductToggle($event)" name="used">
+                    <mat-radio-button value="false" checked="checked" color="accent">new</mat-radio-button>&nbsp;
+                    <mat-radio-button value="true" color="accent">used</mat-radio-button>
+                </mat-radio-group>
+                <div formGroupName="condition">
+                    <mat-form-field class="center" color="accent">
+                        <mat-label>Describe it's condition if it's used</mat-label>
+                        <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="5"></textarea><br>
+                    </mat-form-field>
+                </div>
+                <br>
+                <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button color="accent">Sell</button>&nbsp;
+                <button routerLink="/" mat-raised-button color="warn">Cancel</button>
+                <br>
+            </form>
+        </div>
         <br>
     </mat-tab>
     <!---->
-    <mat-tab label="Your products"> Your products will show here if you have any </mat-tab>
+    <mat-tab label="Your products">
+        <br>
+        Your products will show here if you have any </mat-tab>
 </mat-tab-group>
