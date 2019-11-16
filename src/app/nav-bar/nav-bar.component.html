@@ -1,13 +1,16 @@
 <mat-toolbar color="primary">
   <mat-nav-list class="list-horizontal">
-    <mat-list-item>
-      <a routerLink="/buy-product" routerLinkActive="active">Shop</a>
+      <mat-list-item routerLink="/home" routerLinkActive="active">
+        <a>Home</a>
+      </mat-list-item>
+      <mat-list-item routerLink="/buy-product" routerLinkActive="active">
+        <a>Shop</a>
+      </mat-list-item>
+    <mat-list-item routerLink="/new-product" routerLinkActive="active">
+      <a>Sell</a>
     </mat-list-item>
-    <mat-list-item>
-      <a routerLink="/new-product" routerLinkActive="active">Sell</a>
-    </mat-list-item>
-    <mat-list-item>
-      <a routerLink="/account" routerLinkActive="active">Account</a>
+    <mat-list-item routerLink="/account" routerLinkActive="active">
+      <a>Account</a>
     </mat-list-item>
   </mat-nav-list>
 </mat-toolbar>
