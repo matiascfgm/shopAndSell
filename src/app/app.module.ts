@@ -3,6 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewProductComponent } from './new-product/new-product.component';
@@ -27,6 +32,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -36,9 +42,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     BuyProductComponent,
     NavBarComponent,
     HomeComponent,
-    AccountComponent
+    AccountComponent,
+    LoginComponent
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

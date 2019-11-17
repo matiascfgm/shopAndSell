@@ -1,16 +1,22 @@
 <mat-toolbar color="primary">
   <mat-nav-list class="list-horizontal">
-      <mat-list-item routerLink="/home" routerLinkActive="active">
+      <mat-list-item routerLink="/home" routerLinkActive="active" *ngIf="authService.isLoggedIn">
         <a>Home</a>
       </mat-list-item>
-      <mat-list-item routerLink="/buy-product" routerLinkActive="active">
+      <mat-list-item routerLink="/buy-product" routerLinkActive="active" *ngIf="authService.isLoggedIn">
         <a>Shop</a>
       </mat-list-item>
-    <mat-list-item routerLink="/new-product" routerLinkActive="active">
+    <mat-list-item routerLink="/new-product" routerLinkActive="active" *ngIf="authService.isLoggedIn">
       <a>Sell</a>
     </mat-list-item>
-    <mat-list-item routerLink="/account" routerLinkActive="active">
+    <mat-list-item routerLink="/account" routerLinkActive="active" *ngIf="authService.isLoggedIn">
       <a>Account</a>
+    </mat-list-item>
+    <mat-list-item routerLink="/login" routerLinkActive="active" *ngIf="!authService.isLoggedIn">
+      <a>Login</a>
+    </mat-list-item>
+    <mat-list-item *ngIf="authService.isLoggedIn" (click)="logout()">
+      <a>Logout</a>
     </mat-list-item>
   </mat-nav-list>
 </mat-toolbar>

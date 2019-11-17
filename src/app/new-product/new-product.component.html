@@ -1,5 +1,6 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
+        {{ this.newProductForm.get(['condition', 'used']).value.value }}
         <span>Sell product</span>
     </mat-toolbar-row>
 </mat-toolbar>
@@ -9,7 +10,7 @@
         <br><br>
         <!--add new product form-->
         <div class="formContainer">
-            <mat-card class="formContainerTitle">New product</mat-card>
+            <mat-card class="formContainerTitle">Create product</mat-card>
             <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
                 <br>
                 <mat-form-field class="inputTitle center" color="accent">
@@ -19,7 +20,7 @@
                 <br>
                 <mat-form-field class="center" color="accent">
                     <mat-label>Add a little description</mat-label>
-                    <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                    <textarea matInput formControlName="description" cdkTextareaAutosize
                         cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea>
                 </mat-form-field><br>
                 <mat-form-field color="accent" class="center">
@@ -31,22 +32,33 @@
                 </mat-form-field>
                 <br>
                 <!--select if new product is used or not-->
-                <mat-radio-group class="center" (change)="usedProductToggle($event)" name="used">
-                    <mat-radio-button value="false" checked="checked" color="accent">new</mat-radio-button>&nbsp;
-                    <mat-radio-button value="true" color="accent">used</mat-radio-button>
-                </mat-radio-group>
-                <div formGroupName="condition">
+                <ng-container formGroupName="condition">
+                    <mat-radio-group class="center" (change)="usedProductToggle($event)" formControlName="used">
+                        <mat-radio-button [value]="false" checked="checked" color="accent">new</mat-radio-button>&nbsp;
+                        <mat-radio-button [value]="true" color="accent">used</mat-radio-button>
+                    </mat-radio-group>
                     <mat-form-field class="center" color="accent">
                         <mat-label>Describe it's condition if it's used</mat-label>
                         <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
-                            #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                            cdkAutosizeMinRows="1"
                             cdkAutosizeMaxRows="5"></textarea><br>
                     </mat-form-field>
-                </div>
+                </ng-container>
                 <br>
-                <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button color="accent">Sell</button>&nbsp;
+                <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button
+                    color="accent">Sell</button>&nbsp;
                 <button routerLink="/" mat-raised-button color="warn">Cancel</button>
                 <br>
+
+                <!-- <ng-container *ngIf="!newProductForm.valid && newProductForm.value.price ; else notValid">
+                    please correct mistakes
+                </ng-container>
+                <ng-template #notValid>
+                    <ng-container *ngIf="....; else correctNumber">
+
+                    </ng-container>"
+                    <ng-template #correctNumber></ng-template>
+                </ng-template> -->
             </form>
         </div>
         <br>
@@ -55,6 +67,5 @@
     <mat-tab label="Your products">
         <br>
         Your products will show here if you have any
-        <button color="primary">hello world</button>
-     </mat-tab>
+    </mat-tab>
 </mat-tab-group>
