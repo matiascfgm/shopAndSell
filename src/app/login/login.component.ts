@@ -12,37 +12,24 @@ import { User } from '../interfaces/user';
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public signUpForm: FormGroup;
-  
+
   constructor(private authService: AuthService, private afAuth: AngularFireAuth) {
     this.afAuth.auth.signOut();
-    
-    /** login form
+
+    // login form
     this.loginForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
-    }); */
-
-    /** login form */
-    this.loginForm = new FormGroup({
-      email: new FormControl('example@gmail.com', Validators.required),
-      password: new FormControl('aassddff', Validators.required)
     });
 
     /** sign up form */
-    // this.signUpForm = new FormGroup({
-    //   email: new FormControl('', Validators.required),
-    //   password: new FormControl('', Validators.minLength(8)),
-    //   userName: new FormControl('', Validators.required),
-    //   lastName: new FormControl('', Validators.required),
-    // })
     this.signUpForm = new FormGroup({
-      email: new FormControl('example@gmail.com', Validators.required),
-      password: new FormControl('aassddff', Validators.minLength(8)),
-      userName: new FormControl('example1', Validators.required),
-      name: new FormControl('Smith', Validators.required),
-      // terms: new FormControl(false, Validators.required)
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.minLength(8)),
+      userName: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
     })
-   }
+  }
 
   ngOnInit() {
   }
@@ -53,14 +40,14 @@ export class LoginComponent implements OnInit {
 
   public signInWithUserPassword() {
     const value = this.loginForm.value
-    this.authService.signInWithUserPassword(value.email ,value.password);
+    this.authService.signInWithUserPassword(value.email, value.password);
   }
 
   public signUpWithEmail() {
     this.authService.signUp(this.signUpForm.value);
   }
 
-  public addToFirebase(){
+  public addToFirebase() {
     console.log('add to firebase 1')
     const newUserData: User = {
       uid: 'idexample',

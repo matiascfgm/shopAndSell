@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, NgControl } from '@ang
 import { ProductsListService } from '../products-list.service';
 import { Product } from '../product.interface';
 import { Router } from "@angular/router";
+import { CurrentUser } from '../core/auth.service';
 
 @Component({
   selector: 'app-new-product',
@@ -15,6 +16,7 @@ export class NewProductComponent implements OnInit {
   public newProductForm: FormGroup;
   constructor(public productService: ProductsListService, private router: Router, private cdRef: ChangeDetectorRef) {
     this.newProductForm = new FormGroup({
+      user_uid: new FormControl(CurrentUser.user.uid),
       title: new FormControl('', [
         Validators.minLength(2),
       ]),

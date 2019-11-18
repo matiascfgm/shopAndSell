@@ -8,6 +8,12 @@ import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
+export class CurrentUser {
+  public static get user(): User {
+    return JSON.parse(localStorage.get('user'));
+  }
+}
+
 
 @Injectable({
   providedIn: 'root'
