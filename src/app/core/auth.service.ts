@@ -3,13 +3,15 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/user';
+import { DefaultRoutes } from '../enums/default.routes';
+import * as firebase from 'firebase/app';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData: any; // Save logged in user data
+  userData: User = JSON.parse(localStorage.getItem('user')); // Save logged in user data
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -24,10 +26,8 @@ export class AuthService {
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
       }
     });
 
@@ -40,14 +40,27 @@ export class AuthService {
   }
 
   public signInWithGoogle() {
+    return this.authLogin(new firebase.auth.GoogleAuthProvider());
+  }
 
+  // Auth logic to run auth providers
+  authLogin(provider) {
+    return this.afAuth.auth.signInWithPopup(provider)
+      .then((result) => {
+        this.ngZone.run(() => {
+          this.router.navigate([DefaultRoutes.OnLogin]);
+        })
+        this.setUserData(result.user);
+      }).catch((error) => {
+        window.alert(error)
+      })
   }
 
   public signInWithUserPassword(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['home']);
+          this.router.navigate([DefaultRoutes.OnLogin]);
         });
         this.setUserData(result.user);
       }).catch((error) => {
@@ -75,7 +88,7 @@ export class AuthService {
 
   public logout() {
     return this.afAuth.auth.signOut().then(() => {
-      this.router.navigate(['login']);
+      this.router.navigate([DefaultRoutes.OnLogOut]);
     })
   }
 }

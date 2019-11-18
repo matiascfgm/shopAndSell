@@ -16,11 +16,9 @@ export class NewProductComponent implements OnInit {
   constructor(public productService: ProductsListService, private router: Router, private cdRef: ChangeDetectorRef) {
     this.newProductForm = new FormGroup({
       title: new FormControl('', [
-        Validators.required,
         Validators.minLength(2),
       ]),
       description: new FormControl('', [
-        Validators.required,
         Validators.minLength(2),
       ]),
       brand: new FormControl('', Validators.required),
