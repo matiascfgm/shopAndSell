@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       emailVerified: value.emailVerified
     };*/
     const newUserData: User = {
-      uid: 'idexample',
+      uid: null,
       email: 'emailexample@gmail.com',
       userName: 'userNameExdample',
       lastName: 'lastnameExample',

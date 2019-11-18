@@ -74,17 +74,13 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(newUserData: User, newUserPassword: string) {
-    this.addEmailUserToFirebase(newUserData);
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${newUserData.uid}`);
+  public SignUp(newUserData: User, newUserPassword: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(newUserData.email, newUserPassword)
       .then((result) => {
         console.log(result)
         window.alert("You have been successfully registered!");
         this.router.navigate([DefaultRoutes.OnLogin]);
-        userRef.set(newUserData, {
-          merge: true
-        })
+        this.afs.collection('users').add(newUserData);
       }).catch((error) => {
         window.alert(error.message)
       })
