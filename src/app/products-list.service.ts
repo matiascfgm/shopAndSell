@@ -14,7 +14,8 @@ export class ProductsListService {
       condition: {
         used: true,
         conditionDescription: 'a lot',
-      }
+      },
+      userId: 3,
     }
   ];
 }

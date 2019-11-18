@@ -1,12 +1,30 @@
-<button mat-button (click)="signInWithGoogle()">google</button>
-<button mat-button (click)="signInWithUserPassword()">email</button>
-
 <form [formGroup]="loginForm" (ngSubmit)="signInWithUserPassword()">
     <mat-form-field color="accent">
-        <input matInput type="email" autofocus formControlName="userName" placeholder="email">
+        <input matInput type="email" autofocus formControlName="email" placeholder="email">
     </mat-form-field>
+    <br>
     <mat-form-field color="accent">
         <input matInput type="password" formControlName="password" placeholder="password">
     </mat-form-field>
+    <br>
     <button mat-button type="submit">Login</button>
 </form>
+<br>
+<button mat-button (click)="signInWithGoogle()">GOOGLE</button>
+<br>
+<br>
+<h1>sign up</h1>
+<form [formGroup]="signUpForm" (ngSubmit)="signUpWithEmail()">
+    <mat-form-field color="accent">
+        <input matInput type="email" autofocus formControlName="email" placeholder="email">
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+        <input matInput type="password" formControlName="password" placeholder="password">
+    </mat-form-field>
+    <br>
+    <button mat-button type="submit">SignUp</button>
+</form>
+<br>
+<br>
+<br>

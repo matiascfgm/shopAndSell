@@ -24,7 +24,11 @@ export class AuthService {
     this.afAuth.authState.subscribe(user => {
       console.log('subcribed to auth', user);
       if (user) {
-        this.userData = user;
+        this.userData.uid = user.uid;
+        this.userData.email = user.email;
+        this.userData.userName = this.splitFullName(user.displayName, 0);
+        this.userData.lastName = this.splitFullName(user.displayName, 1);
+        this.userData.emailVerified = user.emailVerified;
         localStorage.setItem('user', JSON.stringify(this.userData));
       } else {
         localStorage.setItem('user', null);
@@ -56,6 +60,7 @@ export class AuthService {
       })
   }
 
+  // sign in with user password
   public signInWithUserPassword(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
@@ -68,6 +73,18 @@ export class AuthService {
       })
   }
 
+  // Sign up with email/password
+  SignUp(email, password) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        window.alert("You have been successfully registered!");
+        console.log(result.user)
+        this.router.navigate([DefaultRoutes.OnLogin]);
+      }).catch((error) => {
+        window.alert(error.message)
+      })
+  }
+
   /**
    * Setting up user data when sign in with username/password, 
    * sign up with username/password and sign in with social auth  
@@ -75,15 +92,19 @@ export class AuthService {
   */
   public setUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    const userData: User = {
+    const userData: User = {// this params (user.uid, .emai, .userName...) are from google account
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      userName: this.splitFullName(user.displayName, 0),
+      lastName: this.splitFullName(user.displayName, 1),
       emailVerified: user.emailVerified
     }
     return userRef.set(userData, {
       merge: true
     })
+  }
+  public splitFullName(displayName: string, position: number) {
+    return displayName.split(' ')[position];
   }
 
   public logout() {
