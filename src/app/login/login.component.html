@@ -1,0 +1,12 @@
+<button mat-button (click)="signInWithGoogle()">google</button>
+<button mat-button (click)="signInWithUserPassword()">email</button>
+
+<form [formGroup]="loginForm" (ngSubmit)="signInWithUserPassword()">
+    <mat-form-field color="accent">
+        <input matInput type="email" autofocus formControlName="userName" placeholder="email">
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <input matInput type="password" formControlName="password" placeholder="password">
+    </mat-form-field>
+    <button mat-button type="submit">Login</button>
+</form>

@@ -2,13 +2,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
+import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthenticationGuard } from './core/auth.guard';
 import { NewProductComponent } from './new-product/new-product.component';
 import { BuyProductComponent } from './buy-product/buy-product.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './login/login.component';
 
 
 import { MaterialModule } from './style/material.module';
@@ -27,6 +35,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { LoginResolver } from './login/login.resolver';
 
 
 @NgModule({
@@ -36,9 +45,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     BuyProductComponent,
     NavBarComponent,
     HomeComponent,
-    AccountComponent
+    AccountComponent,
+    LoginComponent
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -59,7 +72,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatCardModule,
     MatTooltipModule,
   ],
-  providers: [],
+  providers: [
+    AuthenticationGuard,
+    LoginResolver,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
