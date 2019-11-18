@@ -1,17 +1,19 @@
 import { Injectable, NgZone } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentSnapshot } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/user';
 import { DefaultRoutes } from '../enums/default.routes';
 import * as firebase from 'firebase/app';
+import { Observable } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData: User = JSON.parse(localStorage.getItem('user')); // Save logged in user data
+  public userData: User = JSON.parse(localStorage.getItem('user')) || {} as User; // Save logged in user data
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -19,21 +21,20 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {
-    /* Saving user data in localstorage when 
-    logged in and setting up null when logged out */
-    this.afAuth.authState.subscribe(user => {
-      console.log('subcribed to auth', user);
-      if (user) {
-        this.userData.uid = user.uid;
-        this.userData.email = user.email;
-        this.userData.userName = this.splitFullName(user.displayName, 0);
-        this.userData.lastName = this.splitFullName(user.displayName, 1);
-        this.userData.emailVerified = user.emailVerified;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-      } else {
+    
+    /**
+     * If the user logs out, delete the "localStorage" (which is a $_SESSION).
+     */
+    this.afAuth.authState.subscribe(firebaseUser => {
+      if (!firebaseUser) {
         localStorage.setItem('user', null);
       }
     });
+
+
+    // get the first option that's not FALSY.
+    // const isVerified = user.emailVerified || user.isAdmin || this.userData.signedUpWithGoodle;
+    // const displayName = user.name || user.username || user.email || 'anomymous user';
 
   }
 
@@ -47,43 +48,70 @@ export class AuthService {
     return this.authLogin(new firebase.auth.GoogleAuthProvider());
   }
 
-  // Auth logic to run auth providers
-  authLogin(provider) {
+  /**
+   * Auth logic for all the social sign-in
+   */
+  public authLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
           this.router.navigate([DefaultRoutes.OnLogin]);
         })
-        this.setUserData(result.user);
-      }).catch((error) => {
-        window.alert(error)
-      })
+
+        this.persistUserData(
+          this.createUserDataFromFirebase(result.user)
+        );
+        this.saveUserData(this.userData);
+
+      }).catch(this.showError)
   }
 
   // sign in with user password
   public signInWithUserPassword(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate([DefaultRoutes.OnLogin]);
+        
+        // we can get the user by using the UID or by using the EMAIL. UID is always safer
+        this.getUserByUid(result.user.uid).subscribe((doc) => {
+          // here we get the WHOLE information of the user, as stored in our database.
+          
+          this.saveUserData(doc.data() as User);
+
+          this.ngZone.run(() => {
+            this.router.navigate([DefaultRoutes.OnLogin]);
+          });
+
         });
-        this.setUserData(result.user);
-      }).catch((error) => {
-        window.alert(error.message)
-      })
+        
+      }).catch(this.showError)
   }
 
   // Sign up with email/password
-  public SignUp(newUserData: User, newUserPassword: string) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(newUserData.email, newUserPassword)
-      .then((result) => {
-        console.log(result)
-        window.alert("You have been successfully registered!");
-        this.router.navigate([DefaultRoutes.OnLogin]);
-        this.afs.collection('users').add(newUserData);
-      }).catch((error) => {
-        window.alert(error.message)
+  public signUp(signupData: { email: string; name: string; userName: string; password: string; }) {
+
+    // We sign up. If the user is duplicated, we receive an Error
+    this.afAuth.auth.createUserWithEmailAndPassword(signupData.email, signupData.password)
+    .then((result) => {
+      // we just signed a NEW USER up.
+      console.log("You have been successfully registered!", result.user.uid);
+
+      this.ngZone.run(() => {
+        this.router.navigate([DefaultRoutes.OnSignup]);
       })
+
+      // It's a new user, so we create the User object and persist it in our database.
+      const user: User = {
+        uid: result.user.uid,
+        name: signupData.name,
+        userName: signupData.userName,
+        email: signupData.email,
+        emailVerified: false,
+      }
+      this.persistUserData(user);
+
+      this.saveUserData(user);
+
+    }).catch(this.showError);
   }
 
   /**
@@ -91,21 +119,41 @@ export class AuthService {
    * sign up with username/password and sign in with social auth  
    * provider in Firestore database using AngularFirestore + AngularFirestoreDocument service
   */
-  public setUserData(user) {
+  public persistUserData(user: User) {
+    // save in FireBase
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      userName: this.splitFullName(user.displayName, 0),
-      lastName: this.splitFullName(user.displayName, 1),
-      emailVerified: user.emailVerified
-    }
-    return userRef.set(userData, {
+    return userRef.set(user, {
       merge: true
     })
   }
-  public splitFullName(displayName: string, position: number) {
-    return displayName.split(' ')[position];
+
+  /**
+   * Given an email, searches for the user in the database.
+   * @param email 
+   * @unused - we are not using this function.
+   */
+  public getUserByEmail(email: string): Observable<User> {
+    
+    const userRef: AngularFirestoreCollection<any> = this.afs.collection('users', ref => ref.where('email' as keyof User, '==', email));
+
+    return userRef.valueChanges().pipe(
+      take(1), // unsubscribe after first request is completed!
+
+      // map: the "subscribe(...)" returns what the 'map' function returns.
+      map((userList) => userList.length ? userList[0] : null) // return first user (if there are results) or null (if there are no results)
+    );
+  }
+
+  /**
+   * Given an uid, searches for the user in the database.
+   * @param uid 
+   * @unused - we are not using this function.
+   */
+  public getUserByUid(uid: string): Observable<DocumentSnapshot<User>> {
+    
+    // TODO - find why this is crashing. en otras palabras, cuales son los Types correctos
+    // @ts-ignore (ignora los errores de typescript)
+    return this.afs.doc(`users/${uid}`).get();
   }
 
   public logout() {
@@ -114,10 +162,48 @@ export class AuthService {
     })
   }
 
-  public addEmailUserToFirebase(newUserData: User) {
-    console.log('add to firebase 2')
-    var ref = this.afs.collection("users");
-    this.afs.collection('users').add(newUserData);
-    console.log('end')
+  private createUserDataFromFirebase(firebaseUser: firebase.User): User {
+    return this.userData = {
+      uid: firebaseUser.uid,
+      userName: null,
+      email: firebaseUser.email,
+      emailVerified: firebaseUser.emailVerified,
+      name: firebaseUser.displayName
+    } as User;
+  }
+
+  // tenemos que escribirlo con 'arrow notation' (o 'arrow function') porque metimos la funcion "implicita" en el "catch"
+  private showError = (error) => {
+    console.error('error', error);
+
+    window.alert(error.error);
+
+    // console.log(this); // ya que es 'arrow notation', 'this' hace referencia a AuthService (y no a this.afAuth.auth, lo cual seria raro)
+  };
+
+  /**
+   * "T" es un "parametro", es decir, un tipo de INTERFACE. Se puede definir para cada funcion.
+   * @example Si pido getDocResponse<User>, devuelve un User. Si pido getDocResponse<Animal> ... etc.
+   * @param response 
+   */
+  private getDocResponse<T>(response): T {
+    return response.map(a => {
+      const data = a.payload.doc.data() as T
+      // @ts-ignore
+      data.id = a.payload.doc.id;
+      return data as T;
+    });
+
+  }
+
+  /**
+   * Unify saving data in the Frontend, to make sure we don't forget anything
+   */
+  private saveUserData(user: User) {
+    // save in Property of AuthService
+    this.userData = user;
+          
+    // save in local storage so it's still available when we reload, open new tab, come next day...
+    localStorage.setItem('user', JSON.stringify(user));
   }
 }

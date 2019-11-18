@@ -16,20 +16,31 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private afAuth: AngularFireAuth) {
     this.afAuth.auth.signOut();
     
-    /** login form */
+    /** login form
     this.loginForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
+    }); */
+
+    /** login form */
+    this.loginForm = new FormGroup({
+      email: new FormControl('example@gmail.com', Validators.required),
+      password: new FormControl('aassddff', Validators.required)
     });
 
     /** sign up form */
+    // this.signUpForm = new FormGroup({
+    //   email: new FormControl('', Validators.required),
+    //   password: new FormControl('', Validators.minLength(8)),
+    //   userName: new FormControl('', Validators.required),
+    //   lastName: new FormControl('', Validators.required),
+    // })
     this.signUpForm = new FormGroup({
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.minLength(8)),
-      userName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      emailVerified: new FormControl(false),
-      uid: new FormControl('pruebaID'),
+      email: new FormControl('example@gmail.com', Validators.required),
+      password: new FormControl('aassddff', Validators.minLength(8)),
+      userName: new FormControl('example1', Validators.required),
+      name: new FormControl('Smith', Validators.required),
+      // terms: new FormControl(false, Validators.required)
     })
    }
 
@@ -46,22 +57,7 @@ export class LoginComponent implements OnInit {
   }
 
   public signUpWithEmail() {
-    let value = this.signUpForm.value;
-    /*const newUserData: User = {
-      uid: value.uid,
-      email: value.email,
-      userName: value.name,
-      lastName: value.lastName,
-      emailVerified: value.emailVerified
-    };*/
-    const newUserData: User = {
-      uid: null,
-      email: 'emailexample@gmail.com',
-      userName: 'userNameExdample',
-      lastName: 'lastnameExample',
-      emailVerified: false
-    };
-    this.authService.SignUp(newUserData, 'value.password');
+    this.authService.signUp(this.signUpForm.value);
   }
 
   public addToFirebase(){
@@ -70,7 +66,7 @@ export class LoginComponent implements OnInit {
       uid: 'idexample',
       email: 'emailexample',
       userName: 'userNameExdample',
-      lastName: 'lastnameExample',
+      name: 'lastnameExample',
       emailVerified: false
     };
     // this.authService.addToFirebase(newUserData);

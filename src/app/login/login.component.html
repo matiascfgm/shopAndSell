@@ -16,10 +16,10 @@
 <h1>sign up</h1>
 <form [formGroup]="signUpForm" (ngSubmit)="signUpWithEmail()">
     <mat-form-field color="accent">
-        <input matInput type="text" formControlName="userName" placeholder="name">
+        <input matInput type="text" formControlName="userName" placeholder="user name">
     </mat-form-field>
     <mat-form-field color="accent">
-        <input matInput type="text" formControlName="lastName" placeholder="last name">
+        <input matInput type="text" formControlName="name" placeholder="name">
     </mat-form-field>
     <br>
     <mat-form-field color="accent">
@@ -30,9 +30,5 @@
         <input matInput type="password" formControlName="password" placeholder="password">
     </mat-form-field>
     <br>
-    <button mat-button type="submit">SignUp</button>
+    <button mat-button type="submit">Sign Me Up</button>
 </form>
-<br>
-<br>
-<br>
-<button (click)="signUpWithEmail()">Firebase</button>

@@ -12,7 +12,7 @@
     <mat-list-item routerLink="/account" routerLinkActive="active" *ngIf="authService.isLoggedIn">
       <a>Account</a>
     </mat-list-item>
-    <mat-list-item routerLink="/login" routerLinkActive="active" *ngIf="!authService.isLoggedIn">
+    <mat-list-item [routerLink]="onLogin" routerLinkActive="active" *ngIf="!authService.isLoggedIn">
       <a>Login</a>
     </mat-list-item>
     <mat-list-item *ngIf="authService.isLoggedIn" (click)="logout()">
