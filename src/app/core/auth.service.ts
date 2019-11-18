@@ -74,12 +74,17 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(email, password) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+  SignUp(newUserData: User, newUserPassword: string) {
+    this.addEmailUserToFirebase(newUserData);
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${newUserData.uid}`);
+    return this.afAuth.auth.createUserWithEmailAndPassword(newUserData.email, newUserPassword)
       .then((result) => {
+        console.log(result)
         window.alert("You have been successfully registered!");
-        console.log(result.user)
         this.router.navigate([DefaultRoutes.OnLogin]);
+        userRef.set(newUserData, {
+          merge: true
+        })
       }).catch((error) => {
         window.alert(error.message)
       })
@@ -92,7 +97,7 @@ export class AuthService {
   */
   public setUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    const userData: User = {// this params (user.uid, .emai, .userName...) are from google account
+    const userData: User = {
       uid: user.uid,
       email: user.email,
       userName: this.splitFullName(user.displayName, 0),
@@ -111,5 +116,12 @@ export class AuthService {
     return this.afAuth.auth.signOut().then(() => {
       this.router.navigate([DefaultRoutes.OnLogOut]);
     })
+  }
+
+  public addEmailUserToFirebase(newUserData: User) {
+    console.log('add to firebase 2')
+    var ref = this.afs.collection("users");
+    this.afs.collection('users').add(newUserData);
+    console.log('end')
   }
 }

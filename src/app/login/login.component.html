@@ -16,7 +16,14 @@
 <h1>sign up</h1>
 <form [formGroup]="signUpForm" (ngSubmit)="signUpWithEmail()">
     <mat-form-field color="accent">
-        <input matInput type="email" autofocus formControlName="email" placeholder="email">
+        <input matInput type="text" formControlName="userName" placeholder="name">
+    </mat-form-field>
+    <mat-form-field color="accent">
+        <input matInput type="text" formControlName="lastName" placeholder="last name">
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+        <input matInput type="email" formControlName="email" placeholder="email">
     </mat-form-field>
     <br>
     <mat-form-field color="accent">
@@ -28,3 +35,4 @@
 <br>
 <br>
 <br>
+<button (click)="signUpWithEmail()">Firebase</button>

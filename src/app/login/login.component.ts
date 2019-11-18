@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormControl, Validators, MinLengthValidator } from '@angular/forms';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,11 @@ export class LoginComponent implements OnInit {
     /** sign up form */
     this.signUpForm = new FormGroup({
       email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.minLength(8))
+      password: new FormControl('', Validators.minLength(8)),
+      userName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      emailVerified: new FormControl(false),
+      uid: new FormControl('pruebaID'),
     })
    }
 
@@ -41,8 +46,34 @@ export class LoginComponent implements OnInit {
   }
 
   public signUpWithEmail() {
-    const value = this.signUpForm.value
-    this.authService.SignUp(value.email, value.password);
+    let value = this.signUpForm.value;
+    /*const newUserData: User = {
+      uid: value.uid,
+      email: value.email,
+      userName: value.name,
+      lastName: value.lastName,
+      emailVerified: value.emailVerified
+    };*/
+    const newUserData: User = {
+      uid: 'idexample',
+      email: 'emailexample@gmail.com',
+      userName: 'userNameExdample',
+      lastName: 'lastnameExample',
+      emailVerified: false
+    };
+    this.authService.SignUp(newUserData, 'value.password');
+  }
+
+  public addToFirebase(){
+    console.log('add to firebase 1')
+    const newUserData: User = {
+      uid: 'idexample',
+      email: 'emailexample',
+      userName: 'userNameExdample',
+      lastName: 'lastnameExample',
+      emailVerified: false
+    };
+    // this.authService.addToFirebase(newUserData);
   }
 
 }
