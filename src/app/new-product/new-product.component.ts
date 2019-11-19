@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, Directive, Input, ViewChild } fro
 import { FormGroup, FormControl, FormBuilder, Validators, NgControl } from '@angular/forms';
 import { ProductsListService } from '../products-list.service';
 import { Product } from '../product.interface';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { CurrentUser } from '../core/auth.service';
 
 @Component({
