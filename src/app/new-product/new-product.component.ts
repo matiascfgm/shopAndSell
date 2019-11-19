@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, Directive, Input, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, NgControl } from '@angular/forms';
-import { ProductsListService } from '../products-list.service';
-import { Product } from '../product.interface';
-import { Router } from '@angular/router';
-import { CurrentUser } from '../core/auth.service';
+import {Component, OnInit, ChangeDetectorRef, Directive, Input, ViewChild} from '@angular/core';
+import {FormGroup, FormControl, FormBuilder, Validators, NgControl} from '@angular/forms';
+import {ProductsListService} from '../products-list.service';
+import {Product} from '../product.interface';
+import {Router} from '@angular/router';
+import {AuthService, CurrentUser} from '../core/auth.service';
 
 @Component({
   selector: 'app-new-product',
@@ -14,9 +14,13 @@ export class NewProductComponent implements OnInit {
 
   // public newId: number = this.productService.avaliableProducts.length + 1;
   public newProductForm: FormGroup;
-  constructor(public productService: ProductsListService, private router: Router, private cdRef: ChangeDetectorRef) {
+
+  constructor(
+    public productService: ProductsListService,
+    private router: Router, private cdRef: ChangeDetectorRef,
+    private authService: AuthService) {
     this.newProductForm = new FormGroup({
-      user_uid: new FormControl(CurrentUser.user.uid),
+      uid: new FormControl(CurrentUser.user.uid),
       title: new FormControl('', [
         Validators.minLength(2),
       ]),
@@ -31,10 +35,13 @@ export class NewProductComponent implements OnInit {
       }),
     });
   }
-  ngOnInit() { }
+
+  ngOnInit() {
+  }
 
   createProduct() {
     console.log('createProduct()');
+
     const product: Product = this.newProductForm.value;
     this.productService.avaliableProducts.push(product);
     this.router.navigate(['/']);

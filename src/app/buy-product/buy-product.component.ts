@@ -9,7 +9,7 @@ import { Product } from '../product.interface';
   styleUrls: ['./buy-product.component.scss']
 })
 export class BuyProductComponent implements OnInit {
-  
+
   constructor(public productService: ProductsListService, private router: Router) { }
 
   ngOnInit() {

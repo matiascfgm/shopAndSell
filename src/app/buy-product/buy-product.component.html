@@ -1,13 +1,17 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <span>Shop</span>
-    </mat-toolbar-row>
+  <mat-toolbar-row>
+    <span>Shop</span>
+  </mat-toolbar-row>
 </mat-toolbar>
-<div class="mt-5" *ngFor="let product of productService.avaliableProducts">
-    {{ product.title }}<br>
-    {{ product.description }}<br>
-    {{ product.brand }}<br>
-    {{ product.price }}<br>
-    {{ product.condition.used.value }}<br>
-    <br><br><br>
+<div *ngFor="let product of productService.avaliableProducts">
+  {{ product.title }}<br>
+  {{ product.description }}<br>
+  {{ product.brand }}<br>
+  {{ product.price }}<br>
+  {{ product.condition.used }}<br>
+  <ng-container *ngIf="product.condition.used">
+    {{ product.condition.conditionDescription }}</ng-container><br>
+  {{ product.uid }}
+  <br>
+  <hr><br><br>
 </div>

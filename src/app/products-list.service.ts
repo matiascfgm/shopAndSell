@@ -7,6 +7,7 @@ import { Product } from './product.interface';
 export class ProductsListService {
   public avaliableProducts: Product[] = [
     {
+      uid: 'pruebadeid',
       title: 'prueba',
       description: 'prueba description',
       price: 4,
@@ -15,7 +16,6 @@ export class ProductsListService {
         used: true,
         conditionDescription: 'a lot',
       },
-      userId: 3,
     }
   ];
 }
