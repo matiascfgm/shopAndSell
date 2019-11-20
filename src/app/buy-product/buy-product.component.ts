@@ -18,5 +18,7 @@ export class BuyProductComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  public markProductAsSold(id: string) {
+    this.firestoreService.markProductAsSold(id);
+  }
 }

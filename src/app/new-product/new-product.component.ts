@@ -43,7 +43,7 @@ export class NewProductComponent implements OnInit {
   createProduct() {
     console.log('createProduct()');
     const product: Product = this.newProductForm.value;
-    this.firestoreService.addProductToFirestore(product);
+    this.firestoreService.addProductToFirestore(product, 'newProducts');
     this.router.navigate(['/']);
   }
 

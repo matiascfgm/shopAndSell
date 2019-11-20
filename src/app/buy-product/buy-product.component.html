@@ -10,8 +10,14 @@
   Product price ---> {{ product.price }}<br>
   Product condition ---> {{ product.condition.used }}<br>
   <ng-container *ngIf="product.condition.used">
-    Product condition description ---> {{ product.condition.conditionDescription }}</ng-container><br>
-  Product userID (uid) ---> {{ product.uid }}
+    Product condition description ---> {{ product.condition.conditionDescription }}
+  </ng-container>
   <br>
-  <hr><br><br>
+  userID (uid) ---> {{ product.uid }}<br>
+  id --> {{ product.id }}
+  <br>
+  <button mat-raised-button color="accent" (click)="markProductAsSold(product.id)" >Buy</button>
+  <br>
+  <hr>
+  <br><br>
 </div>
