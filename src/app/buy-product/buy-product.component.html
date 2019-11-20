@@ -3,15 +3,15 @@
     <span>Shop</span>
   </mat-toolbar-row>
 </mat-toolbar>
-<div *ngFor="let product of productService.avaliableProducts">
-  {{ product.title }}<br>
-  {{ product.description }}<br>
-  {{ product.brand }}<br>
-  {{ product.price }}<br>
-  {{ product.condition.used }}<br>
+<div *ngFor="let product of (firestoreService.products$ | async)">
+  Product name ---> {{ product.title }}<br>
+  Product description ---> {{ product.description }}<br>
+  Product brand --->  {{ product.brand }}<br>
+  Product price ---> {{ product.price }}<br>
+  Product condition ---> {{ product.condition.used }}<br>
   <ng-container *ngIf="product.condition.used">
-    {{ product.condition.conditionDescription }}</ng-container><br>
-  {{ product.uid }}
+    Product condition description ---> {{ product.condition.conditionDescription }}</ng-container><br>
+  Product userID (uid) ---> {{ product.uid }}
   <br>
   <hr><br><br>
 </div>

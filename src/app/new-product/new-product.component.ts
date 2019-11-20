@@ -4,6 +4,7 @@ import {ProductsListService} from '../products-list.service';
 import {Product} from '../product.interface';
 import {Router} from '@angular/router';
 import {AuthService, CurrentUser} from '../core/auth.service';
+import {FirestoreService} from '../core/firestore.service';
 
 @Component({
   selector: 'app-new-product',
@@ -12,13 +13,14 @@ import {AuthService, CurrentUser} from '../core/auth.service';
 })
 export class NewProductComponent implements OnInit {
 
-  // public newId: number = this.productService.avaliableProducts.length + 1;
   public newProductForm: FormGroup;
-
+  public currentUserId = CurrentUser.user.uid;
   constructor(
     public productService: ProductsListService,
     private router: Router, private cdRef: ChangeDetectorRef,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private firestoreService: FirestoreService) {
+
     this.newProductForm = new FormGroup({
       uid: new FormControl(CurrentUser.user.uid),
       title: new FormControl('', [
@@ -36,14 +38,12 @@ export class NewProductComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
   createProduct() {
     console.log('createProduct()');
-
     const product: Product = this.newProductForm.value;
-    this.productService.avaliableProducts.push(product);
+    this.firestoreService.addProductToFirestore(product);
     this.router.navigate(['/']);
   }
 

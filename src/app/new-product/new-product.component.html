@@ -1,71 +1,74 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-        {{ this.newProductForm.get(['condition', 'used']).value.value }}
-        <span>Sell product</span>
-    </mat-toolbar-row>
+  <mat-toolbar-row>
+    <span>Sell product</span>
+  </mat-toolbar-row>
 </mat-toolbar>
 <!-- content labels first ->add product second ->see your products -->
 <mat-tab-group>
-    <mat-tab label="Sell new product">
-        <br><br>
-        <!--add new product form-->
-        <div class="formContainer">
-            <mat-card class="formContainerTitle">Create product</mat-card>
-            <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
-                <br>
-                <mat-form-field class="inputTitle center" color="accent">
-                    <input matInput autofocus formControlName="title"
-                        placeholder="Start by naming what you are selling">
-                </mat-form-field>
-                <br>
-                <mat-form-field class="center" color="accent">
-                    <mat-label>Add a little description</mat-label>
-                    <textarea matInput formControlName="description" cdkTextareaAutosize
-                        cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea>
-                </mat-form-field><br>
-                <mat-form-field color="accent" class="center">
-                    <input matInput formControlName="brand" placeholder="Brand">
-                </mat-form-field><br>
-                <mat-form-field color="accent" class="center" style="font-size: 2em; width: 20%;">
-                    <input matInput type="number" formControlName="price">
-                    <span matSuffix>€&nbsp;</span>
-                </mat-form-field>
-                <br>
-                <!--select if new product is used or not-->
-                <ng-container formGroupName="condition">
-                    <mat-radio-group class="center" (change)="usedProductToggle($event)" formControlName="used">
-                        <mat-radio-button [value]="false" checked="checked" color="accent">new</mat-radio-button>&nbsp;
-                        <mat-radio-button [value]="true" color="accent">used</mat-radio-button>
-                    </mat-radio-group>
-                    <mat-form-field class="center" color="accent">
-                        <mat-label>Describe it's condition if it's used</mat-label>
-                        <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
-                            cdkAutosizeMinRows="1"
-                            cdkAutosizeMaxRows="5"></textarea><br>
-                    </mat-form-field>
-                </ng-container>
-                <br>
-                <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button
-                    color="accent">Sell</button>&nbsp;
-                <button routerLink="/" mat-raised-button color="warn">Cancel</button>
-                <br>
-
-                <!-- <ng-container *ngIf="!newProductForm.valid && newProductForm.value.price ; else notValid">
-                    please correct mistakes
-                </ng-container>
-                <ng-template #notValid>
-                    <ng-container *ngIf="....; else correctNumber">
-
-                    </ng-container>"
-                    <ng-template #correctNumber></ng-template>
-                </ng-template> -->
-            </form>
-        </div>
+  <mat-tab label="Sell new product">
+    <br><br>
+    <!--add new product form-->
+    <div class="formContainer">
+      <mat-card class="formContainerTitle">Create product</mat-card>
+      <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
         <br>
-    </mat-tab>
-    <!---->
-    <mat-tab label="Your products">
+        <mat-form-field class="inputTitle center" color="accent">
+          <input matInput autofocus formControlName="title"
+                 placeholder="Start by naming what you are selling">
+        </mat-form-field>
         <br>
-        Your products will show here if you have any
-    </mat-tab>
+        <mat-form-field class="center" color="accent">
+          <mat-label>Add a little description</mat-label>
+          <textarea matInput formControlName="description" cdkTextareaAutosize
+                    cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea>
+        </mat-form-field>
+        <br>
+        <mat-form-field color="accent" class="center">
+          <input matInput formControlName="brand" placeholder="Brand">
+        </mat-form-field>
+        <br>
+        <mat-form-field color="accent" class="center" style="font-size: 2em; width: 20%;">
+          <input matInput type="number" formControlName="price">
+          <span matSuffix>€&nbsp;</span>
+        </mat-form-field>
+        <br>
+        <!--select if new product is used or not-->
+        <ng-container formGroupName="condition">
+          <mat-radio-group class="center" (change)="usedProductToggle($event)" formControlName="used">
+            <mat-radio-button [value]="false" checked="checked" color="accent">new</mat-radio-button>&nbsp;
+            <mat-radio-button [value]="true" color="accent">used</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field class="center" color="accent">
+            <mat-label>Describe it's condition if it's used</mat-label>
+            <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="5"></textarea><br>
+          </mat-form-field>
+        </ng-container>
+        <br>
+        <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button
+                color="accent">Sell
+        </button>&nbsp;
+        <button routerLink="/" mat-raised-button color="warn">Cancel</button>
+        <br>
+      </form>
+    </div>
+    <br>
+  </mat-tab>
+  <!----------------------------------------------->
+  <mat-tab label="Your products">
+    <br>
+    <div *ngFor="let product of (firestoreService.products$ | async)">
+      <ng-container *ngIf="currentUserId == product.uid;else empty">
+        {{ product.title}}<br>
+        {{ product.description}}<br>
+        {{ product.price}}<br>
+        {{ product.brand}}<br>
+        {{ product.price}}<br>
+        {{ product.condition.used}}<br>
+      </ng-container>
+    </div>
+    <!--Problem: empty message will show twice since it's being called from each product without its same uid-->
+    <ng-template #empty>You don't have any products</ng-template>
+  </mat-tab>
 </mat-tab-group>

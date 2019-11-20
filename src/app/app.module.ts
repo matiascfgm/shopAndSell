@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AngularFireModule } from "@angular/fire";
-import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { environment } from '../environments/environment';
 
@@ -36,6 +37,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { LoginResolver } from './login/login.resolver';
+import { ProductComponent } from './core/pages/product/product.component';
 
 
 @NgModule({
@@ -46,12 +48,14 @@ import { LoginResolver } from './login/login.resolver';
     NavBarComponent,
     HomeComponent,
     AccountComponent,
-    LoginComponent
+    LoginComponent,
+    ProductComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
