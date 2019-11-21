@@ -25,9 +25,11 @@ export class NewProductComponent implements OnInit {
       uid: new FormControl(CurrentUser.user.uid),
       title: new FormControl('', [
         Validators.minLength(2),
+        Validators.required,
       ]),
       description: new FormControl('', [
         Validators.minLength(2),
+        Validators.required,
       ]),
       brand: new FormControl('', Validators.required),
       price: new FormControl('', Validators.required),
@@ -37,7 +39,11 @@ export class NewProductComponent implements OnInit {
       }),
     });
   }
-
+  get title() { return this.newProductForm.get('title'); }
+  get description() { return this.newProductForm.get('description'); }
+  get brand() { return this.newProductForm.get('brand'); }
+  get price() { return this.newProductForm.get('price'); }
+  get conditionDescription() { return this.newProductForm.get('condition.conditionDescription'); }
   ngOnInit() {  }
 
   createProduct() {
@@ -52,4 +58,5 @@ export class NewProductComponent implements OnInit {
     const control: FormControl = this.newProductForm.get(['condition', 'conditionDescription']) as FormControl;
     usedControl.value ? control.enable() : control.disable();
   }
+
 }

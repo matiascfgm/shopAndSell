@@ -15,21 +15,51 @@
         <mat-form-field class="inputTitle center" color="accent">
           <input matInput autofocus formControlName="title"
                  placeholder="Start by naming what you are selling">
+          <mat-error *ngIf="title.invalid && (title.dirty || title.touched)"
+                     class="alert alert-danger">
+            <mat-error *ngIf="title.errors.required">
+              Title is <strong>required.</strong>
+            </mat-error>
+            <mat-error *ngIf="title.errors.minlength">
+              Title is too <strong>short.</strong>
+            </mat-error>
+          </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field class="center" color="accent">
           <mat-label>Add a little description</mat-label>
           <textarea matInput formControlName="description" cdkTextareaAutosize
                     cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea>
+          <mat-error *ngIf="description.invalid && (description.dirty || description.touched)"
+                     class="alert alert-danger">
+            <mat-error *ngIf="description.errors.required">
+              Desciption is <strong>required.</strong>
+            </mat-error>
+            <mat-error *ngIf="description.errors.minlength">
+              Description is too <strong>short.</strong>
+            </mat-error>
+          </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field color="accent" class="center">
           <input matInput formControlName="brand" placeholder="Brand">
+          <mat-error *ngIf="brand.invalid && (brand.dirty || brand.touched)"
+                     class="alert alert-danger">
+            <mat-error *ngIf="brand.errors.required">
+              Brand is <strong>required.</strong>
+            </mat-error>
+          </mat-error>
         </mat-form-field>
         <br>
         <mat-form-field color="accent" class="center" style="font-size: 2em; width: 20%;">
           <input matInput type="number" formControlName="price">
           <span matSuffix>€&nbsp;</span>
+          <mat-error *ngIf="price.invalid && (price.dirty || price.touched)"
+                     class="alert alert-danger">
+            <mat-error *ngIf="price.errors.required">
+              Price is <strong>required.</strong>
+            </mat-error>
+          </mat-error>
         </mat-form-field>
         <br>
         <!--select if new product is used or not-->
@@ -43,9 +73,15 @@
             <textarea matInput formControlName="conditionDescription" cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="5"></textarea><br>
+            <mat-error *ngIf="conditionDescription.invalid && (conditionDescription.dirty || conditionDescription.touched)"
+                       class="alert alert-danger">
+              <mat-error *ngIf="conditionDescription.errors.required">
+                Condition description is <strong>required.</strong>
+              </mat-error>
+            </mat-error>
           </mat-form-field>
         </ng-container>
-        <br>
+        <br><br>
         <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button
                 color="accent">Sell
         </button>&nbsp;
