@@ -1,3 +1,9 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Login</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
 <form [formGroup]="loginForm" (ngSubmit)="signInWithUserPassword()">
     <mat-form-field color="accent">
         <input matInput type="email" autofocus formControlName="email" placeholder="email">

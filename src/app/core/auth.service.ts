@@ -164,7 +164,7 @@ export class AuthService {
     return this.afs.doc(`users/${uid}`).get();
   }
 
-  public logout() {
+  public onLogout() {
     return this.afAuth.auth.signOut().then(() => {
       this.router.navigate([DefaultRoutes.OnLogOut]);
     });
