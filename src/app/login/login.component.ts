@@ -3,6 +3,7 @@ import { AuthService } from '../core/auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormControl, Validators, MinLengthValidator } from '@angular/forms';
 import { User } from '../interfaces/user';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
   public signUpForm: FormGroup;
 
   constructor(private authService: AuthService, private afAuth: AngularFireAuth) {
+
     this.afAuth.auth.signOut();
 
     // login form
@@ -28,7 +30,9 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', Validators.minLength(8)),
       userName: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
-    })
+    });
+
+
   }
 
   ngOnInit() {
