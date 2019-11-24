@@ -1,7 +1,5 @@
-<!--// TODO - how to use the actual 'dataSource'?-->
-
-<ng-container *ngIf="products$ | async as products">
-  <table mat-table [dataSource]="products" class="mat-elevation-z8" *ngIf="products.length; else noProducts">
+<div *ngIf="products.length > 0">
+  <table [dataSource]="products" class="mat-elevation-z8" mat-table>
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Action</th>
       <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold">
@@ -50,8 +48,10 @@
     <tr mat-row *matRowDef="let row; columns: columns;"></tr>
   </table>
 
-  <ng-template #noProducts>
-    <h1>empty</h1>
-  </ng-template>
+</div>
+
+<!--// if products === null, it means we still haven't loaded the data, so we shouldn't show this message.-->
+<ng-container *ngIf="products.length === 0">
+  <h3 class="center">{{ noProductsMessage }}</h3>
 </ng-container>
 

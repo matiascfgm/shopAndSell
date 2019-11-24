@@ -5,5 +5,5 @@
 </mat-toolbar>
 
 <app-product-table
-  [products$]="products$"
+  [products$]="firestoreService.getAllProducts()"
 ></app-product-table>

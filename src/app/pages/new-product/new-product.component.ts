@@ -1,12 +1,13 @@
-import {Router} from '@angular/router';
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {Product} from '../../product.interface';
+import { Product } from '../../product.interface';
 import { CurrentUser } from '../../core/services/current-user.service';
-import {FirestoreService} from '../../core/services/firestore.service';
+import { FirestoreService } from '../../core/services/firestore.service';
+
 
 @Component({
   selector: 'app-new-product',
@@ -18,21 +19,19 @@ export class NewProductComponent implements OnInit {
   public newProductForm: FormGroup;
   public currentUserId = CurrentUser.user.uid;
 
-  public soldProducts$ = new Subject<Product[]>();
-  public unsoldProducts$ = new Subject<Product[]>();
+  public sellingProducts$: Observable<Product[]> = this.firestoreService.getAllProductsByUserId(
+    this.currentUserId, false);
+  public soldProducts$: Observable<Product[]> = this.firestoreService.getAllProductsByUserId(this.currentUserId, true);
 
-  constructor(
+  public readonly message = {
+    notSelling: 'You\'re not selling any products',
+    notSold: 'You don\'t have any sold products'
+  };
+
+  public constructor(
     private router: Router,
     private firestoreService: FirestoreService
   ) {
-
-    this.firestoreService.getAllProductsByUserId(this.currentUserId, true).subscribe(
-      (products) => this.soldProducts$.next(products)
-    );
-
-    this.firestoreService.getAllProductsByUserId(this.currentUserId, false).subscribe(
-      (products) => this.unsoldProducts$.next(products)
-    );
 
     this.newProductForm = new FormGroup({
       uid: new FormControl(CurrentUser.user.uid),
