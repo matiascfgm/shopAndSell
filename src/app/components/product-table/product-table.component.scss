@@ -1,10 +1,15 @@
 table {
-  width: 80%;
-  margin: 5% auto;
+  margin: auto;
+  width: 100%;
 }
 .unsold {
   background-color: rgba(green, 0.2);
 }
 .sold {
   background-color: rgba(red, 0.2);
+}
+.container {
+  max-height: 600px;
+  overflow: auto;
+  margin: 2%;
 }
