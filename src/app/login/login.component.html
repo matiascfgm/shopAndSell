@@ -4,37 +4,41 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <br>
-<form [formGroup]="loginForm" (ngSubmit)="signInWithUserPassword()">
+<div style="margin: 10px;">
+
+  <form [formGroup]="loginForm" (ngSubmit)="signInWithUserPassword()">
     <mat-form-field color="accent">
-        <input matInput type="email" autofocus formControlName="email" placeholder="email">
+      <input matInput type="email" autofocus formControlName="email" placeholder="email">
     </mat-form-field>
     <br>
     <mat-form-field color="accent">
-        <input matInput type="password" formControlName="password" placeholder="password">
+      <input matInput type="password" formControlName="password" placeholder="password">
     </mat-form-field>
     <br>
     <button mat-button type="submit">Login</button>
-</form>
-<br>
-<button mat-button (click)="signInWithGoogle()">GOOGLE</button>
-<br>
-<br>
-<h1>sign up</h1>
-<form [formGroup]="signUpForm" (ngSubmit)="signUpWithEmail()">
+  </form>
+  <br>
+  <button mat-button (click)="signInWithGoogle()">GOOGLE</button>
+  <br>
+  <br>
+  <h1>sign up</h1>
+  <form [formGroup]="signUpForm" (ngSubmit)="signUpWithEmail()">
     <mat-form-field color="accent">
-        <input matInput type="text" formControlName="userName" placeholder="user name">
-    </mat-form-field>
-    <mat-form-field color="accent">
-        <input matInput type="text" formControlName="name" placeholder="name">
+      <input matInput type="text" formControlName="userName" placeholder="user name">
     </mat-form-field>
     <br>
     <mat-form-field color="accent">
-        <input matInput type="email" formControlName="email" placeholder="email">
+      <input matInput type="text" formControlName="name" placeholder="name">
     </mat-form-field>
     <br>
     <mat-form-field color="accent">
-        <input matInput type="password" formControlName="password" placeholder="password">
+      <input matInput type="email" formControlName="email" placeholder="email">
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="password" formControlName="password" placeholder="password">
     </mat-form-field>
     <br>
     <button mat-button type="submit">Sign Me Up</button>
-</form>
+  </form>
+</div>

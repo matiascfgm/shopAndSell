@@ -1,20 +1,16 @@
-import {Injectable, NgZone} from '@angular/core';
-import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentSnapshot} from '@angular/fire/firestore';
-import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
-import {User} from '../interfaces/user';
-import {DefaultRoutes} from '../enums/default.routes';
+import {Injectable, NgZone} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentSnapshot} from '@angular/fire/firestore';
+
 import * as firebase from 'firebase/app';
+
 import {Observable} from 'rxjs';
 import {take, map} from 'rxjs/operators';
 
-export class CurrentUser {
-  public static get user(): User {
-    // return JSON.parse(localStorage.get('user')); BEFORE
-    return JSON.parse(localStorage.getItem('user'));
-  }
-}
-
+import {User} from '../interfaces/user';
+import { FB } from '../collections.enum';
+import {DefaultRoutes} from '../enums/default.routes';
 
 @Injectable({
   providedIn: 'root'
@@ -142,7 +138,7 @@ export class AuthService {
    */
   public getUserByEmail(email: string): Observable<User> {
 
-    const userRef: AngularFirestoreCollection<any> = this.afs.collection('users', ref => ref.where('email' as keyof User, '==', email));
+    const userRef: AngularFirestoreCollection<any> = this.afs.collection(FB.Users, ref => ref.where('email' as keyof User, '==', email));
 
     return userRef.valueChanges().pipe(
       take(1), // unsubscribe after first request is completed!

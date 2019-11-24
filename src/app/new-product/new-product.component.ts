@@ -1,9 +1,11 @@
-import {Component, OnInit, ChangeDetectorRef, Directive, Input, ViewChild} from '@angular/core';
-import {FormGroup, FormControl, FormBuilder, Validators, NgControl} from '@angular/forms';
-import {ProductsListService} from '../products-list.service';
-import {Product} from '../product.interface';
 import {Router} from '@angular/router';
-import {AuthService, CurrentUser} from '../core/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+
+import { Subject } from 'rxjs';
+
+import {Product} from '../product.interface';
+import { CurrentUser } from '../current-user.service';
 import {FirestoreService} from '../core/firestore.service';
 
 @Component({
@@ -15,11 +17,17 @@ export class NewProductComponent implements OnInit {
 
   public newProductForm: FormGroup;
   public currentUserId = CurrentUser.user.uid;
+
+  public products$ = new Subject<Product[]>();
+
   constructor(
-    public productService: ProductsListService,
-    private router: Router, private cdRef: ChangeDetectorRef,
-    private authService: AuthService,
-    private firestoreService: FirestoreService) {
+    private router: Router,
+    private firestoreService: FirestoreService
+  ) {
+
+    this.firestoreService.getAllProductsByUserId(this.currentUserId).subscribe((products) => this.products$.next(products))
+
+    this.products$.subscribe(hello => console.log('hello', hello));
 
     this.newProductForm = new FormGroup({
       uid: new FormControl(CurrentUser.user.uid),
@@ -37,6 +45,7 @@ export class NewProductComponent implements OnInit {
         used: new FormControl(false),
         conditionDescription: new FormControl({value: '', disabled: true}, Validators.required),
       }),
+      sold: new FormControl(false)
     });
   }
   get title() { return this.newProductForm.get('title'); }
@@ -49,7 +58,7 @@ export class NewProductComponent implements OnInit {
   createProduct() {
     console.log('createProduct()');
     const product: Product = this.newProductForm.value;
-    this.firestoreService.addProductToFirestore(product, 'newProducts');
+    this.firestoreService.saveProduct(product);
     this.router.navigate(['/']);
   }
 
