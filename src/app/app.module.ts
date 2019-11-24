@@ -37,8 +37,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTableModule} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { LoginResolver } from './pages/login/login.resolver';
 import { ProductComponent } from './components/product/product.component';
@@ -82,6 +81,7 @@ import { ProductTableComponent } from './components/product-table/product-table.
     MatCardModule,
     MatTooltipModule,
     MatTableModule,
+    MatSnackBarModule,
   ],
   providers: [
     AuthenticationGuard,

@@ -4,6 +4,8 @@ import { CurrentUser } from '../../core/services/current-user.service';
 import { FirestoreService } from '../../core/services/firestore.service';
 import { Product } from '../../product.interface';
 import { takeUntil } from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -49,14 +51,16 @@ export class ProductTableComponent implements OnInit {
    */
   private destroy$ = new Subject<boolean>();
 
-  public constructor(private firestoreService: FirestoreService) { }
+  public constructor(private firestoreService: FirestoreService, private snackBar: MatSnackBar,  private router: Router) { }
 
   public onMarkAsSold(id: string) {
     this.firestoreService.toggleProductStatus(id, true);
+    this.snackBar.open('Product set as sold', 'Dismiss');
   }
 
   public sellAgain(id: string) {
     this.firestoreService.toggleProductStatus(id, false);
+    this.snackBar.open('Product set as unsold', 'Dismiss');
   }
   ngOnInit() {
     // subscribe to the observable as soon as the Component is mounted.

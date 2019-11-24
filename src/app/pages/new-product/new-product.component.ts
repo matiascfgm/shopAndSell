@@ -8,7 +8,6 @@ import { Product } from '../../product.interface';
 import { CurrentUser } from '../../core/services/current-user.service';
 import { FirestoreService } from '../../core/services/firestore.service';
 
-
 @Component({
   selector: 'app-new-product',
   templateUrl: './new-product.component.html',
