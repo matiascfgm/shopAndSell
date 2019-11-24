@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../core/auth.service';
-import {DefaultRoutes} from '../enums/default.routes';
+import {AuthService} from '../../services/auth.service';
+import {DefaultRoutes} from '../../../enums/default.routes';
 import {Router} from '@angular/router';
 
 @Component({

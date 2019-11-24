@@ -15,12 +15,10 @@
         <mat-form-field class="inputTitle center" color="accent">
           <input
             matInput autofocus formControlName="title"
-            placeholder="Start by naming what you are selling"
-          >
+            placeholder="Start by naming what you are selling">
           <mat-error
             *ngIf="title.invalid && (title.dirty || title.touched)"
-            class="alert alert-danger"
-          >
+            class="alert alert-danger">
             <mat-error *ngIf="title.errors.required">
               Title is <strong>required.</strong>
             </mat-error>
@@ -38,8 +36,7 @@
           ></textarea>
           <mat-error
             *ngIf="description.invalid && (description.dirty || description.touched)"
-            class="alert alert-danger"
-          >
+            class="alert alert-danger">
             <mat-error *ngIf="description.errors.required">
               Desciption is <strong>required.</strong>
             </mat-error>
@@ -53,8 +50,7 @@
           <input matInput formControlName="brand" placeholder="Brand">
           <mat-error
             *ngIf="brand.invalid && (brand.dirty || brand.touched)"
-            class="alert alert-danger"
-          >
+            class="alert alert-danger">
             <mat-error *ngIf="brand.errors.required">
               Brand is <strong>required.</strong>
             </mat-error>
@@ -66,8 +62,7 @@
           <span matSuffix>€&nbsp;</span>
           <mat-error
             *ngIf="price.invalid && (price.dirty || price.touched)"
-            class="alert alert-danger"
-          >
+            class="alert alert-danger">
             <mat-error *ngIf="price.errors.required">
               Price is <strong>required.</strong>
             </mat-error>
@@ -89,8 +84,7 @@
             ></textarea><br>
             <mat-error
               *ngIf="conditionDescription.invalid && (conditionDescription.dirty || conditionDescription.touched)"
-              class="alert alert-danger"
-            >
+              class="alert alert-danger">
               <mat-error *ngIf="conditionDescription.errors.required">
                 Condition description is <strong>required.</strong>
               </mat-error>
@@ -98,10 +92,8 @@
           </mat-form-field>
         </ng-container>
         <br><br>
-        <button
-          [disabled]="!newProductForm.valid" type="submit" mat-raised-button
-          color="accent"
-        >Sell
+        <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button color="accent">
+          Sell
         </button>&nbsp;
         <button routerLink="/" mat-raised-button color="warn">Cancel</button>
         <br>
@@ -111,16 +103,12 @@
   </mat-tab>
   <!----------------------------------------------->
   <mat-tab label="Your products">
-    <br>
-    <ng-container *ngIf="products$ | async as products">
-      <div *ngFor="let product of products">
-        {{ product.title}}<br>
-        {{ product.description}}<br>
-        {{ product.price}}<br>
-        {{ product.brand}}<br>
-        {{ product.price}}<br>
-        {{ product.condition.used}}<br>
-      </div>
-    </ng-container>
+    <app-product-table
+      [products$]="unsoldProducts$">
+    </app-product-table>
+    <app-product-table
+      [coloring]="true"
+      [products$]="soldProducts$">
+    </app-product-table>
   </mat-tab>
 </mat-tab-group>

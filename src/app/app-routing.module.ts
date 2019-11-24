@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { NewProductComponent } from './new-product/new-product.component';
-import { BuyProductComponent } from './buy-product/buy-product.component';
-import { AccountComponent } from './account/account.component';
-import { LoginComponent } from './login/login.component';
-import { AuthenticationGuard } from './core/auth.guard';
+import { HomeComponent } from './pages/home/home.component';
+import { NewProductComponent } from './pages/new-product/new-product.component';
+import { BuyProductComponent } from './pages/buy-product/buy-product.component';
+import { AccountComponent } from './pages/account/account.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthenticationGuard } from './core/guards/auth.guard';
 
 
 const routes: Routes = [

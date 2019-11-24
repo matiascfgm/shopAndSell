@@ -1,7 +1,7 @@
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from '../core/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable()

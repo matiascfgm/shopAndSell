@@ -4,9 +4,9 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
-import {Product} from '../product.interface';
-import { CurrentUser } from '../current-user.service';
-import {FirestoreService} from '../core/firestore.service';
+import {Product} from '../../product.interface';
+import { CurrentUser } from '../../core/services/current-user.service';
+import {FirestoreService} from '../../core/services/firestore.service';
 
 @Component({
   selector: 'app-new-product',
@@ -18,16 +18,21 @@ export class NewProductComponent implements OnInit {
   public newProductForm: FormGroup;
   public currentUserId = CurrentUser.user.uid;
 
-  public products$ = new Subject<Product[]>();
+  public soldProducts$ = new Subject<Product[]>();
+  public unsoldProducts$ = new Subject<Product[]>();
 
   constructor(
     private router: Router,
     private firestoreService: FirestoreService
   ) {
 
-    this.firestoreService.getAllProductsByUserId(this.currentUserId).subscribe((products) => this.products$.next(products))
+    this.firestoreService.getAllProductsByUserId(this.currentUserId, true).subscribe(
+      (products) => this.soldProducts$.next(products)
+    );
 
-    this.products$.subscribe(hello => console.log('hello', hello));
+    this.firestoreService.getAllProductsByUserId(this.currentUserId, false).subscribe(
+      (products) => this.unsoldProducts$.next(products)
+    );
 
     this.newProductForm = new FormGroup({
       uid: new FormControl(CurrentUser.user.uid),

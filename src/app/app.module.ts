@@ -13,11 +13,11 @@ import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthenticationGuard } from './core/auth.guard';
-import { NewProductComponent } from './new-product/new-product.component';
-import { BuyProductComponent } from './buy-product/buy-product.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { LoginComponent } from './login/login.component';
+import { AuthenticationGuard } from './core/guards/auth.guard';
+import { NewProductComponent } from './pages/new-product/new-product.component';
+import { BuyProductComponent } from './pages/buy-product/buy-product.component';
+import { NavBarComponent } from './core/pages/nav-bar/nav-bar.component';
+import { LoginComponent } from './pages/login/login.component';
 
 
 import { MaterialModule } from './style/material.module';
@@ -26,18 +26,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
-import { AccountComponent } from './account/account.component';
+import { AccountComponent } from './pages/account/account.component';
 import { MatChipsModule } from '@angular/material/chips';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { LoginResolver } from './login/login.resolver';
-import { ProductComponent } from './core/pages/product/product.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+
+import { LoginResolver } from './pages/login/login.resolver';
+import { ProductComponent } from './components/product/product.component';
+import { ProductTableComponent } from './components/product-table/product-table.component';
 
 
 @NgModule({
@@ -49,7 +54,8 @@ import { ProductComponent } from './core/pages/product/product.component';
     HomeComponent,
     AccountComponent,
     LoginComponent,
-    ProductComponent
+    ProductComponent,
+    ProductTableComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -75,6 +81,7 @@ import { ProductComponent } from './core/pages/product/product.component';
     MatStepperModule,
     MatCardModule,
     MatTooltipModule,
+    MatTableModule,
   ],
   providers: [
     AuthenticationGuard,

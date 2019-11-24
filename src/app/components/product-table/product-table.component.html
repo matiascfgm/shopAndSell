@@ -1,0 +1,57 @@
+<!--// TODO - how to use the actual 'dataSource'?-->
+
+<ng-container *ngIf="products$ | async as products">
+  <table mat-table [dataSource]="products" class="mat-elevation-z8" *ngIf="products.length; else noProducts">
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Action</th>
+      <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold">
+        <button mat-stroked-button color="accent" (click)="onMarkAsSold(product.id)" *ngIf="userID == product.uid && !product.sold">Mark as sold</button>
+        <button mat-stroked-button color="accent" *ngIf="userID !== product.uid">Buy</button>
+        <button mat-stroked-button color="accent" (click)="sellAgain(product.id)" *ngIf="userID == product.uid && product.sold">Sell again</button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title</th>
+      <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold"> {{product.title}} </td>
+    </ng-container>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description</th>
+      <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold"> {{product.description}} </td>
+    </ng-container>
+
+    <!-- Brand Column -->
+    <ng-container matColumnDef="brand">
+      <th mat-header-cell *matHeaderCellDef> Brand</th>
+      <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold"> {{product.brand}} </td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Price</th>
+      <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold"> {{product.price}} </td>
+    </ng-container>
+
+    <!-- Condition Column -->
+    <ng-container matColumnDef="used">
+      <th mat-header-cell *matHeaderCellDef> Used</th>
+      <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold"> {{product.condition.used}} </td>
+    </ng-container>
+
+    <!-- Condition description Column -->
+    <ng-container matColumnDef="conditionDescription">
+      <th mat-header-cell *matHeaderCellDef> Condition</th>
+      <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold"> {{product.condition.conditionDescription}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+  </table>
+
+  <ng-template #noProducts>
+    <h1>empty</h1>
+  </ng-template>
+</ng-container>
+

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductsListService} from '../products-list.service';
+import {ProductsListService} from '../../products-list.service';
 import {Router} from '@angular/router';
-import {Product} from '../product.interface';
-import {FirestoreService} from '../core/firestore.service';
+import {Product} from '../../product.interface';
+import {FirestoreService} from '../../core/services/firestore.service';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-buy-product',
@@ -11,14 +12,12 @@ import {FirestoreService} from '../core/firestore.service';
 })
 export class BuyProductComponent implements OnInit {
 
-  public product: Product;
+  public products$ = new Subject<Product[]>();
 
   constructor(private firestoreService: FirestoreService, private router: Router) {
   }
 
   ngOnInit() {
-  }
-  public markProductAsSold(id: string) {
-    this.firestoreService.markProductAsSold(id);
+    this.firestoreService.getAllProducts().subscribe(products => this.products$.next(products));
   }
 }
