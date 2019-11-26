@@ -38,6 +38,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 import { LoginResolver } from './pages/login/login.resolver';
 import { ProductTableComponent } from './components/product-table/product-table.component';
@@ -84,6 +86,7 @@ import {ProductComponent} from './components/product/product.component';
     MatTooltipModule,
     MatTableModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     AuthenticationGuard,

@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
-import {Observable} from 'rxjs';
-import {map, take} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
-import {FB} from '../../collections.enum';
-import {Product} from '../../product.interface';
+import { FB } from '../../collections.enum';
+import { Product } from '../../product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +21,18 @@ export class FirestoreService {
     return this.afs.collection(FB.Products).add(product).then((result) => {
       const productId = result.id;
       // this.afs.collection(FB.Products).doc(productId).update({...product, id: productId});
-      this.updateProduct({...product, id: productId});
+      this.updateProduct({ ...product, id: productId });
     });
   }
 
   public toggleProductStatus(id: string, markAsSold: boolean) {
     console.log('togglePoductStatus()');
     this.getProductById(id).subscribe(product => {
-      this.afs.collection('products').doc(id).update({...product, sold: markAsSold});
+      this.afs.collection('products').doc(id).update({ ...product, sold: markAsSold });
     });
   }
 
-  public getProductById(id: string): Observable<Product> {
+  public getProductById(id: string, sold: boolean = false): Observable<Product> {
     // TODO - find why this is crashing. en otras palabras, cuales son los Types correctos
     // @ts-ignore (ignora los errores de typescript)
     return this.afs.doc(`products/${id}`).valueChanges().pipe(take(1));
@@ -61,7 +61,6 @@ export class FirestoreService {
   }
 
   public getAllProductsByUserId(id: string, sold: boolean = false): Observable<Product[]> {
-
     const products$: AngularFirestoreCollection<any> = this.afs.collection(FB.Products, (ref) => {
       // if we send 'sold' as true/false, it filters. if we send 'sold' as null, returns sold AND unsold products.
       if (sold !== null) {
