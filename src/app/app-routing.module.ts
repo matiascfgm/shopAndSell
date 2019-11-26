@@ -7,6 +7,7 @@ import { BuyProductComponent } from './pages/buy-product/buy-product.component';
 import { AccountComponent } from './pages/account/account.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthenticationGuard } from './core/guards/auth.guard';
+import {SeeProductComponent} from './pages/see-product/see-product.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'new-product', component: NewProductComponent },
       { path: 'buy-product', component: BuyProductComponent },
+      { path: 'see-product/:id', component: SeeProductComponent },
       { path: 'account', component: AccountComponent },
     ]
   },

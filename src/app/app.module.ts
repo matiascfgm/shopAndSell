@@ -40,8 +40,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { LoginResolver } from './pages/login/login.resolver';
-import { ProductComponent } from './components/product/product.component';
 import { ProductTableComponent } from './components/product-table/product-table.component';
+import { SeeProductComponent } from './pages/see-product/see-product.component';
+import {ProductComponent} from './components/product/product.component';
 
 
 @NgModule({
@@ -53,8 +54,9 @@ import { ProductTableComponent } from './components/product-table/product-table.
     HomeComponent,
     AccountComponent,
     LoginComponent,
+    ProductTableComponent,
+    SeeProductComponent,
     ProductComponent,
-    ProductTableComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),

@@ -26,7 +26,7 @@ export class FirestoreService {
   }
 
   public toggleProductStatus(id: string, markAsSold: boolean) {
-    console.log('productSold()');
+    console.log('togglePoductStatus()');
     this.getProductById(id).subscribe(product => {
       this.afs.collection('products').doc(id).update({...product, sold: markAsSold});
     });

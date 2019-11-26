@@ -55,12 +55,16 @@ export class ProductTableComponent implements OnInit {
 
   public onMarkAsSold(id: string) {
     this.firestoreService.toggleProductStatus(id, true);
-    this.snackBar.open('Product set as sold', 'Dismiss');
+    this.snackBar.open('Product set as sold', 'Dismiss', {
+      duration: 4000,
+    });
   }
 
   public sellAgain(id: string) {
     this.firestoreService.toggleProductStatus(id, false);
-    this.snackBar.open('Product set as unsold', 'Dismiss');
+    this.snackBar.open('Product set as unsold', 'Dismiss', {
+      duration: 4000,
+    });
   }
   ngOnInit() {
     // subscribe to the observable as soon as the Component is mounted.
