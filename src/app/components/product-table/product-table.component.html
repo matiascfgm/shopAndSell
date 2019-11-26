@@ -4,7 +4,11 @@
       <th mat-header-cell *matHeaderCellDef> Action</th>
       <td mat-cell *matCellDef="let product" [class.sold]="coloring && product.sold">
         <button mat-stroked-button color="accent" (click)="onMarkAsSold(product.id)" *ngIf="userID == product.uid && !product.sold">Mark as sold</button>
+<<<<<<< Updated upstream
         <button mat-stroked-button color="accent" [routerLink]="'/see-product/' + product.id" *ngIf="userID !== product.uid">See product</button>
+=======
+        <button mat-stroked-button color="accent" *ngIf="userID !== product.uid">See product</button>
+>>>>>>> Stashed changes
         <button mat-stroked-button color="accent" (click)="sellAgain(product.id)" *ngIf="userID == product.uid && product.sold">Sell again</button>
       </td>
     </ng-container>
