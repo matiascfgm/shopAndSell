@@ -10,5 +10,7 @@
         {{ product.brand }}
         {{ product.id }}
     </div>
-    <h1 *ngIf="product.sold">Sorry the product is sold</h1>
+    <button (click)="buyProduct()" *ngIf="!product.sold" [routerLink]="'/buy-product'">Buy product</button>
+    <h1 *ngIf="product.buyerId == userID;else anotherUser">You bought this product</h1>
+    <ng-template *ngIf="product.sold" #anotherUser>This product is sold</ng-template>
 </ng-container>

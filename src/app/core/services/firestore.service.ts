@@ -25,10 +25,17 @@ export class FirestoreService {
     });
   }
 
+  public buyProduct(id: string, uid: string) {
+    console.log('buyProduct()');
+    this.getProductById(id).subscribe(product => {
+      this.afs.collection('products').doc(id).update({ ...product, sold: true, buyerId: uid })
+    });
+  }
+
   public toggleProductStatus(id: string, markAsSold: boolean) {
     console.log('togglePoductStatus()');
     this.getProductById(id).subscribe(product => {
-      this.afs.collection('products').doc(id).update({ ...product, sold: markAsSold });
+      this.afs.collection('products').doc(id).update({ ...product, sold: markAsSold, buyerId: null });
     });
   }
 
@@ -36,6 +43,16 @@ export class FirestoreService {
     // TODO - find why this is crashing. en otras palabras, cuales son los Types correctos
     // @ts-ignore (ignora los errores de typescript)
     return this.afs.doc(`products/${id}`).valueChanges().pipe(take(1));
+  }
+
+  public getUserPurchasedProducts(uid: string): Observable<Product[]> {
+    const products$: AngularFirestoreCollection<any> = this.afs.collection(FB.Products, (ref) => {
+      // if we send 'sold' as true/false, it filters. if we send 'sold' as null, returns sold AND unsold products.
+      return ref
+        .where('buyerId', '==', uid)
+        .where('sold', '==', true);
+    });
+    return products$.valueChanges();
   }
 
   /**

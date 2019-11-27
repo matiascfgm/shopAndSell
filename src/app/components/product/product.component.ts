@@ -21,4 +21,9 @@ export class ProductComponent implements OnInit {
     this.firestoreService.getProductById(this.id).subscribe(r => this.product = r);
   }
 
+  public buyProduct() {
+    this.firestoreService.buyProduct(this.id, this.userID);
+    
+  }
+
 }
