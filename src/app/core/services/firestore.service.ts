@@ -17,7 +17,6 @@ export class FirestoreService {
 
   public saveProduct(product: Product): Promise<any> {
     console.log('add product service()');
-    console.log('product to save', product);
     return this.afs.collection(FB.Products).add(product).then((result) => {
       const productId = result.id;
       // this.afs.collection(FB.Products).doc(productId).update({...product, id: productId});
@@ -27,15 +26,16 @@ export class FirestoreService {
 
   public buyProduct(id: string, uid: string) {
     console.log('buyProduct()');
+    const date = new Date();
     this.getProductById(id).subscribe(product => {
-      this.afs.collection('products').doc(id).update({ ...product, sold: true, buyerId: uid })
+      this.afs.collection('products').doc(id).update({ ...product, sold: true, buyerId: uid, soldDate: date })
     });
   }
 
   public toggleProductStatus(id: string, markAsSold: boolean) {
-    console.log('togglePoductStatus()');
+    console.log('togglePoductStatus()');    
     this.getProductById(id).subscribe(product => {
-      this.afs.collection('products').doc(id).update({ ...product, sold: markAsSold, buyerId: null });
+      this.afs.collection('products').doc(id).update({ ...product, sold: markAsSold, buyerId: null, soldDate: null });
     });
   }
 

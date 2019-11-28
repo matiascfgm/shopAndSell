@@ -9,4 +9,6 @@ export interface Product {
         used: boolean, // true used false new
         conditionDescription: string, // null if condition.used = false
     };
+    sold: boolean;
+    date: Date;
 }
