@@ -46,7 +46,6 @@ import { ProductTableComponent } from './components/product-table/product-table.
 import { SeeProductComponent } from './pages/see-product/see-product.component';
 import {ProductComponent} from './components/product/product.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

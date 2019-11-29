@@ -49,7 +49,7 @@ export class NewProductComponent implements OnInit {
         conditionDescription: new FormControl({value: '', disabled: true}, Validators.required),
       }),
       sold: new FormControl(false),
-      date: new FormControl(new Date),
+      date: new FormControl(new Date()),
     });
   }
   get title() { return this.newProductForm.get('title'); }

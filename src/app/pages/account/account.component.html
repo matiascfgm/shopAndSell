@@ -5,8 +5,8 @@
 </mat-toolbar>
 <mat-tab-group>
     <mat-tab label="Your orders">
-        <app-product-table 
-        [noProductsMessage]="'You dont have any products'" 
+        <app-product-table
+        [noProductsMessage]="'You haven\'t bought any products yet'"
         [products$]="userPurchasedProducts$">
         </app-product-table>
     </mat-tab>

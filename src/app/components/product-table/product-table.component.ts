@@ -16,7 +16,7 @@ import {Router} from '@angular/router';
 export class ProductTableComponent implements OnInit {
 
   @Input()
-  public columns = ['actions', 'title', 'description', 'brand', 'price', 'used', 'conditionDescription'];
+  public columns = ['actions', 'title', 'description', 'brand', 'price', 'used', 'conditionDescription', 'date'];
 
   /**
    * An observable that we subscribe to, in order to get the products
@@ -27,7 +27,7 @@ export class ProductTableComponent implements OnInit {
   /**
    * The array of products for the table.
    */
-  public products: Product[] = null;
+  public products: any[] = null;
 
   /**
    * If set to true, it will mark the 'sold' columns with a red background.
