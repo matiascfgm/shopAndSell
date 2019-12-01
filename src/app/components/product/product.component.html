@@ -11,7 +11,6 @@
         {{ product.id }}
     </div>
     <button (click)="buyProduct()" *ngIf="!product.sold" [routerLink]="'/buy-product'">Buy product</button>
-    <h1 *ngIf="product.buyerId == userID;else anotherUser">You bought this product {{product.soldDate.seconds * 1000 | date:'dd/MM/yyyy'}}</h1>
+    <h1 *ngIf="product.buyerId == userID;else anotherUser">You bought this product on {{product.soldDate.seconds * 1000 | date:'dd/MM/yyyy, HH:mm'}}</h1>
     <ng-template *ngIf="product.sold" #anotherUser>This product is sold</ng-template>
 </ng-container>
-<!-- @todo if | date: 'yyyy-MM-dd' doesn't work keep trying with timestampt service-->

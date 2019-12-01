@@ -10,5 +10,8 @@ export interface Product {
         conditionDescription: string, // null if condition.used = false
     };
     sold: boolean;
-    date: Date;
+    date: {seconds: number};
+    soldDate: {seconds: number};
+    buyerId: string;
 }
+

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CurrentUser } from '../../core/services/current-user.service';
 import { FirestoreService } from 'src/app/core/services/firestore.service';
+import {Product} from '../../product.interface';
 
 
 @Component({
@@ -11,16 +12,16 @@ import { FirestoreService } from 'src/app/core/services/firestore.service';
 })
 export class ProductComponent implements OnInit {
 
-  public product: any;
+  public product: Product;
   public userID = CurrentUser.user.uid;
   public id = this.route.snapshot.paramMap.get('id');
 
   constructor(
     private firestoreService: FirestoreService,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.firestoreService.getProductById(this.id).subscribe(r => this.product = r);
+    this.firestoreService.getProductById(this.id).subscribe(product => this.product = product);
   }
 
   public buyProduct() {

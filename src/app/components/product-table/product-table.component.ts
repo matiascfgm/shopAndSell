@@ -27,7 +27,7 @@ export class ProductTableComponent implements OnInit {
   /**
    * The array of products for the table.
    */
-  public products: any[] = null;
+  public products: Product[] = null;
 
   /**
    * If set to true, it will mark the 'sold' columns with a red background.
