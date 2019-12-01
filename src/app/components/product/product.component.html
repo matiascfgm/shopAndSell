@@ -1,16 +1,15 @@
-<mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <span>Buy product</span>
-    </mat-toolbar-row>
-</mat-toolbar>
-<ng-container *ngIf="product">
-    <div [class.sold]="product.sold">
-        {{ product.title }}
-        {{ product.description }}
-        {{ product.brand }}
-        {{ product.id }}
-    </div>
-    <button (click)="buyProduct()" *ngIf="!product.sold" [routerLink]="'/buy-product'">Buy product</button>
-    <h1 *ngIf="product.buyerId == userID;else anotherUser">You bought this product on {{product.soldDate.seconds * 1000 | date:'dd/MM/yyyy, HH:mm'}}</h1>
-    <ng-template *ngIf="product.sold" #anotherUser>This product is sold</ng-template>
-</ng-container>
+<mat-card class="card" *ngIf="product">
+  <mat-card-header>
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title>{{product.title}} - {{product.price}}€</mat-card-title>
+    <mat-card-subtitle>{{product.brand}} ({{ product.condition.used ? 'used' : 'new' }})</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="product.image.url" [alt]="product.description">
+  <mat-card-content>
+    <p>{{product.description}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="buyProduct()" [disabled]="!canBuy">BUY</button>
+    <button mat-button>HELLO</button>
+  </mat-card-actions>
+</mat-card>

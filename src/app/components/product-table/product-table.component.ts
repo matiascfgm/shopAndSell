@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { CurrentUser } from '../../core/services/current-user.service';
 import { FirestoreService } from '../../core/services/firestore.service';
-import { Product } from '../../product.interface';
+import { Product } from '../../interfaces/product.interface';
 import { takeUntil } from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -53,19 +53,24 @@ export class ProductTableComponent implements OnInit {
 
   public constructor(private firestoreService: FirestoreService, private snackBar: MatSnackBar,  private router: Router) { }
 
-  public onMarkAsSold(id: string) {
+  public onMarkAsSold(event, id: string) {
+    event.preventDefault()
+    event.stopPropagation();
     this.firestoreService.toggleProductStatus(id, true);
     this.snackBar.open('Product set as sold', 'Dismiss', {
       duration: 4000,
     });
   }
 
-  public sellAgain(id: string) {
+  public sellAgain(event, id: string) {
+    event.preventDefault()
+    event.stopPropagation();
     this.firestoreService.toggleProductStatus(id, false);
     this.snackBar.open('Product set as unsold', 'Dismiss', {
       duration: 4000,
     });
   }
+
   ngOnInit() {
     // subscribe to the observable as soon as the Component is mounted.
     this.products$.pipe(

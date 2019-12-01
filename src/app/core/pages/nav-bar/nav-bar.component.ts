@@ -34,4 +34,12 @@ export class NavBarComponent implements OnInit {
     this.router.navigate([key]);
   }
 
+  /**
+   * Improves the OnChange page reload by re-rendering only the required element.
+   * @param index the index in the list.
+   */
+  public trackBy(index: number): number {
+    return index;
+  }
+
 }

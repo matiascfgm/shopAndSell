@@ -45,6 +45,9 @@ import { LoginResolver } from './pages/login/login.resolver';
 import { ProductTableComponent } from './components/product-table/product-table.component';
 import { SeeProductComponent } from './pages/see-product/see-product.component';
 import {ProductComponent} from './components/product/product.component';
+import {ImgurApiService} from './core/services/imgur.service';
+import {HttpClientModule} from '@angular/common/http';
+import {GenerateDataService} from './generate-data/generate-data.service';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,7 @@ import {ProductComponent} from './components/product/product.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MaterialModule,
     MatToolbarModule,
     MatInputModule,
@@ -90,6 +94,10 @@ import {ProductComponent} from './components/product/product.component';
   providers: [
     AuthenticationGuard,
     LoginResolver,
+    ImgurApiService,
+
+    // TODO - only for DEVELOPMENT!!!
+    GenerateDataService
   ],
   bootstrap: [AppComponent]
 })

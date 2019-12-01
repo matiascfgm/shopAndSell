@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import {Injectable} from '@angular/core';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map, take} from 'rxjs/operators';
 
-import { FB } from '../../collections.enum';
-import { Product } from '../../product.interface';
+import {FB} from '../../enums/collections.enum';
+import {Product} from '../../interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +17,11 @@ export class FirestoreService {
 
   public saveProduct(product: Product): Promise<any> {
     console.log('add product service()');
+    console.log('what are 5you saving', product);
     return this.afs.collection(FB.Products).add(product).then((result) => {
       const productId = result.id;
       // this.afs.collection(FB.Products).doc(productId).update({...product, id: productId});
-      this.updateProduct({ ...product, id: productId });
+      this.updateProduct({...product, id: productId});
     });
   }
 
@@ -28,14 +29,14 @@ export class FirestoreService {
     console.log('buyProduct()');
     const date = new Date();
     this.getProductById(id).subscribe(product => {
-      this.afs.collection('products').doc(id).update({ ...product, sold: true, buyerId: uid, soldDate: date })
+      this.afs.collection('products').doc(id).update({...product, sold: true, buyerId: uid, soldDate: date});
     });
   }
 
   public toggleProductStatus(id: string, markAsSold: boolean) {
-    console.log('togglePoductStatus()');    
+    console.log('togglePoductStatus()');
     this.getProductById(id).subscribe(product => {
-      this.afs.collection('products').doc(id).update({ ...product, sold: markAsSold, buyerId: null, soldDate: null });
+      this.afs.collection('products').doc(id).update({...product, sold: markAsSold, buyerId: null, soldDate: null});
     });
   }
 
