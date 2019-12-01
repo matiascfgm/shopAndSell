@@ -10,7 +10,7 @@
     <!--add new product form-->
     <div class="formContainer">
       <mat-card class="formContainerTitle">Create product</mat-card>
-      <form [formGroup]="newProductForm" (ngSubmit)="createProduct()">
+      <form [formGroup]="newProductForm" (ngSubmit)="saveForm()">
         <br>
         <mat-form-field class="inputTitle center" color="accent">
           <input
@@ -83,7 +83,7 @@
           <mat-form-field class="center" color="accent">
             <mat-label>Describe it's condition if it's used</mat-label>
             <textarea
-              matInput formControlName="conditionDescription" cdkTextareaAutosize
+              matInput formControlName="description" cdkTextareaAutosize
               cdkAutosizeMinRows="1"
               cdkAutosizeMaxRows="5"
             ></textarea><br>
@@ -97,7 +97,9 @@
             </mat-error>
           </mat-form-field>
         </ng-container>
-        <br><br>
+        <br>
+        <input type="file" (change)="onImageSelect($event.target.files[0])">
+        <br>
         <button [disabled]="!newProductForm.valid" type="submit" mat-raised-button color="accent">
           Sell
         </button>&nbsp;

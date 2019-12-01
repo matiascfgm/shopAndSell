@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ImgurApiService} from '../../core/services/imgur.service';
 
 @Component({
   selector: 'app-see-product',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SeeProductComponent implements OnInit {
 
-  constructor() { }
+  constructor(private imgurService: ImgurApiService) { }
 
   ngOnInit() {
   }

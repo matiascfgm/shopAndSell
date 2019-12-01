@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {take, map} from 'rxjs/operators';
 
 import {User} from '../../interfaces/user';
-import { FB } from '../../collections.enum';
+import { FB } from '../../enums/collections.enum';
 import {DefaultRoutes} from '../../enums/default.routes';
 
 @Injectable({

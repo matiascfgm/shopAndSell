@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Observable } from 'rxjs';
-import { Product } from 'src/app/product.interface';
+import { Product } from 'src/app/interfaces/product.interface';
 import { FirestoreService } from 'src/app/core/services/firestore.service';
 import { CurrentUser } from 'src/app/core/services/current-user.service';
 

@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { CurrentUser } from '../../core/services/current-user.service';
 import { FirestoreService } from 'src/app/core/services/firestore.service';
-import {Product} from '../../product.interface';
+import {Product} from '../../interfaces/product.interface';
+import {DefaultRoutes} from '../../enums/default.routes';
 
 
 @Component({
@@ -16,9 +17,13 @@ export class ProductComponent implements OnInit {
   public userID = CurrentUser.user.uid;
   public id = this.route.snapshot.paramMap.get('id');
 
+  public get canBuy(): boolean {
+    return !this.product.sold && this.product.uid !== this.userID;
+  }
   constructor(
     private firestoreService: FirestoreService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
     this.firestoreService.getProductById(this.id).subscribe(product => this.product = product);
@@ -26,6 +31,8 @@ export class ProductComponent implements OnInit {
 
   public buyProduct() {
     this.firestoreService.buyProduct(this.id, this.userID);
+    console.log(this.router)
+    this.router.navigate([DefaultRoutes.OnBuy])
   }
 
 }
