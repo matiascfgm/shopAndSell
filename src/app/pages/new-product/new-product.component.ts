@@ -64,7 +64,7 @@ export class NewProductComponent implements OnInit {
       }),
       sold: new FormControl(false),
       date: new FormControl(new Date()),
-      image: new FormControl({url: Config.NoImage, deletehash: null})
+      image: new FormControl({url: Config.noProductImage, deletehash: null})
     });
 
   }

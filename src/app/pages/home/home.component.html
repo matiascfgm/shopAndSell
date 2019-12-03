@@ -3,5 +3,6 @@
             <span>Home</span>
         </mat-toolbar-row>
     </mat-toolbar>
+<img [src]="authService.userData.image.url">
 <h1>Welcome {{ authService.userData.name }}</h1>
 <small> {{ authService.userData.email }}</small>

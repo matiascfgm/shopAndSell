@@ -52,7 +52,7 @@ export class GenerateDataService {
       },
       sold: false,
       image: {
-        url: Config.NoImage,
+        url: Config.noProductImage,
         delete: null
       }
     } as Product;
