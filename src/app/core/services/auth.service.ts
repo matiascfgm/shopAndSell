@@ -182,7 +182,11 @@ export class AuthService {
       userName: null,
       email: firebaseUser.email,
       emailVerified: firebaseUser.emailVerified,
-      name: firebaseUser.displayName
+      name: firebaseUser.displayName,
+      image: {
+        url: Config.noUserImage,
+        delete: null,
+      },
     } as User;
   }
 

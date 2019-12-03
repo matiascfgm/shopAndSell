@@ -9,7 +9,7 @@ export class GenerateDataService {
 
   public userID = CurrentUser.user.uid;
 
-  public userIds: string[] = [this.userID, 'OvEbNhiAp5guq8mFvnoXAMWyhmk2', 'lVVojhHGlDYsFoGd8HzJ2SLmqyw2', 'tz9NusxKfqXWyBNg4g0jxaVXeoF2'];
+  public userIds: string[] = ['6iWUxNaqaofnvM2NREqpzMFu6OR2', 'HZZMwwaaNmTLGONm9o44S2RuhyJ3', 'd4UHIlYNCTQmXUlGf9PCQUe8SWH3', 'rcMQQk8CHQVaTdX0uS8YfrSCYVy2'];
 
   public data: Partial<Product>[] = [
     this.tesla,
