@@ -9,8 +9,10 @@ import {Observable} from 'rxjs';
 import {take, map} from 'rxjs/operators';
 
 import {User} from '../../interfaces/user';
-import { FB } from '../../enums/collections.enum';
+import {FB} from '../../enums/collections.enum';
 import {DefaultRoutes} from '../../enums/default.routes';
+import {ImgurApiService} from './imgur.service';
+import {Config} from '../config';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,8 @@ export class AuthService {
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone, // NgZone service to remove outside scope warning
+    private imgurService: ImgurApiService,
   ) {
 
     /**
@@ -91,8 +94,7 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  public signUp(signupData: { email: string; name: string; userName: string; password: string; }) {
-
+  public signUp(signupData: { email: string; name: string; userName: string; password: string; image: File; }) {
     // We sign up. If the user is duplicated, we receive an Error
     this.afAuth.auth.createUserWithEmailAndPassword(signupData.email, signupData.password)
       .then((result) => {
@@ -110,11 +112,19 @@ export class AuthService {
           userName: signupData.userName,
           email: signupData.email,
           emailVerified: false,
+          image: {
+            url: Config.noUserImage,
+            delete: null,
+          },
         };
+        if (signupData.image) {
+          this.imgurService.upload(signupData.image).subscribe((imgur: { data: { link: string, deletehash: string } }) => {
+            console.log('imgur response --->', imgur);
+            user.image = {url: imgur.data.link, delete: imgur.data.deletehash};
+          });
+        }
         this.persistUserData(user);
-
         this.saveUserData(user);
-
       }).catch(this.showError);
   }
 

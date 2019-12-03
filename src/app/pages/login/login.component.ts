@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormControl, Validators, MinLengthValidator } from '@angular/forms';
 import { User } from '../../interfaces/user';
 import { BehaviorSubject } from 'rxjs';
+import {Config} from '../../core/config';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public signUpForm: FormGroup;
+  private userImage: File = null;
 
   constructor(private authService: AuthService, private afAuth: AngularFireAuth) {
 
@@ -30,6 +32,7 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', Validators.minLength(8)),
       userName: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
+      image: new FormControl(null)
     });
 
 
@@ -51,16 +54,8 @@ export class LoginComponent implements OnInit {
     this.authService.signUp(this.signUpForm.value);
   }
 
-  public addToFirebase() {
-    console.log('add to firebase 1')
-    const newUserData: User = {
-      uid: 'idexample',
-      email: 'emailexample',
-      userName: 'userNameExdample',
-      name: 'lastnameExample',
-      emailVerified: false
-    };
-    // this.authService.addToFirebase(newUserData);
+  public onImageSelect(image: File) {
+    this.signUpForm.value.image = image;
   }
 
 }

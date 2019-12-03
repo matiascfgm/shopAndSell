@@ -39,6 +39,9 @@
       <input matInput type="password" formControlName="password" placeholder="password">
     </mat-form-field>
     <br>
+    <br>
+    <input type="file" (change)="onImageSelect($event.target.files[0])">
+    <br>
     <button mat-button type="submit">Sign Me Up</button>
   </form>
 </div>
